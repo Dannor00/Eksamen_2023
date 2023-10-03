@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.15)
+project(Eksamen_2023)
+
+set(CMAKE_CXX_STANDARD 17)
+
+find_package(threepp CONFIG REQUIRED)
+find_package(imgui CONFIG REQUIRED)
+
+add_executable(main.cpp)
+target_link_libraries(Main PRIVATE threepp::threepp imgui::imgui)
