@@ -1,15 +1,10 @@
-
-  "default-registry": {
-    "kind": "git",
-    "repository": "https://github.com/Microsoft/vcpkg",
-    "baseline": "12c2a93b4007612b5ffa980c9d2235eb0bcac10f"
-  },
-  "registries": [
+{
+"$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "dependencies": [
+    "threepp",
     {
-      "kind": "git",
-      "baseline": "9c9f5b550255d36e4e5584e0a2fb061cf7f67649",
-      "repository": "https://github.com/Ecos-platform/vcpkg-registry",
-      "packages": [ "threepp" ]
+      "name": "imgui",
+      "features": ["glfw-binding", "opengl3-binding"]
     }
   ]
 }
