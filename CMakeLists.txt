@@ -6,5 +6,5 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(threepp CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 
-add_executable(main.cpp)
-target_link_libraries(demo PRIVATE threepp::threepp imgui::imgui)
+add_executable(Tetris main.cpp)
+target_link_libraries(Tetris PRIVATE threepp::threepp imgui::imgui)
