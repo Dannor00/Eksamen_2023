@@ -1,5 +1,4 @@
 
-
 #include "threepp/extras/imgui/ImguiContext.hpp"
 #include "threepp/threepp.hpp"
 
@@ -21,7 +20,7 @@ namespace {
 
 int main() {
 
-    Canvas canvas("threepp demo", {{"aa", 4}});
+    Canvas canvas("Tetris", {{"aa", 4}});
     GLRenderer renderer(canvas.size());
     renderer.setClearColor(Color::aliceblue);
 
@@ -39,19 +38,10 @@ int main() {
 
     renderer.enableTextRendering();
     int textYOffset = 30;
-    auto& textHandle = renderer.textHandle("Hello World");
+    auto& textHandle = renderer.textHandle("Level 1");
     textHandle.setPosition(0, canvas.size().height - textYOffset);
     textHandle.scale = 2;
 
-    std::array<float, 3> posBuf{};
-    ImguiFunctionalContext ui(canvas.windowPtr(), [&] {
-        ImGui::SetNextWindowPos({0, 0}, 0, {0, 0});
-        ImGui::SetNextWindowSize({230, 0}, 0);
-        ImGui::Begin("Demo");
-        ImGui::SliderFloat3("position", posBuf.data(), -1.f, 1.f);
-        controls.enabled = !ImGui::IsWindowHovered();
-        ImGui::End();
-    });
 
     canvas.onWindowResize([&](WindowSize size) {
         camera->aspect = size.aspect();
@@ -67,8 +57,5 @@ int main() {
         group->rotation.y += rotationSpeed * dt;
 
         renderer.render(*scene, *camera);
-
-        ui.render();
-        group->position.fromArray(posBuf);
     });
 }
