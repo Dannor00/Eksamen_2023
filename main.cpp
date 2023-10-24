@@ -1,7 +1,7 @@
 #include "threepp/extras/imgui/ImguiContext.hpp"
 #include "threepp/threepp.hpp"
 #include "thread"
-#include "grid.h"
+#include "Grid/grid.h"
 
 using namespace threepp;
 
@@ -13,18 +13,22 @@ int main() {
 
     GLRenderer renderer(canvas.size());
     renderer.setClearColor(Color::blue);
-    auto camera = PerspectiveCamera::create();
-    camera->position.z = 100;
+    auto camera = PerspectiveCamera::create(75, canvas.aspect(),0.1f, 1000);
+    camera->position.set(0, 0, 500);
+
     auto scene = Scene::create();
     OrbitControls controls(*camera, canvas);
 
     Grid grid = Grid();
+    grid.grid[0][0] =1;
+    grid.grid[3][5] =4;
+    grid.grid[17][8] =7;
     grid.Print();
 
 
 
 
-    /// Denne delen av koden er modifisert av chatgpt for å sette makimum fps til 60
+    /// Denne delen av koden er modifisert av chatgpt for å sette maksimum fps til 60
     const double targetFrameTime = 1.0 / 60.0; // Target time for 60 fps (in seconds)
     Clock clock;
 

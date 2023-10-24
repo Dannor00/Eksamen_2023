@@ -5,6 +5,7 @@
 #include "threepp/threepp.hpp"
 #include "grid.h"
 #include "iostream"
+#include "colors.h"
 
 
 Grid::Grid()
@@ -37,19 +38,7 @@ void Grid::Print()
         std::cout << std::endl;
     }
 }
-std::vector<Color> Grid::GetCellColors()
-{
-    Color grey = {Color::grey};
-    Color green = {Color::green};
-    Color red = {Color::red};
-    Color orange = {Color::orange};
-    Color yellow = {Color::yellow};
-    Color purple = {Color::purple};
-    Color cyan = {Color::cyan};
-    Color blue ={Color::blue};
 
-    return {grey, green, red, orange, yellow, purple, cyan, blue};
-}
 void Grid::Draw(threepp::Scene* scene) {
     int column; // Declare column outside of the loop
     for (int row = 0; row < numRows; row++) {

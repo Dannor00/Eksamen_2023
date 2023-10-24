@@ -8,9 +8,10 @@ find_package(imgui CONFIG REQUIRED)
 
 add_executable(Tetris
         main.cpp
-        grid.cpp
-        grid.h
-        grid.cpp
+        Grid/grid.cpp
+        Tetrominos/Block/Block.cpp
+        Tetrominos/Position/Position.cpp
+        Tetrominos/colors/colors.cpp
 )
 
 target_link_libraries(Tetris
