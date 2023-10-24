@@ -14,9 +14,13 @@ int main() {
     GLRenderer renderer(canvas.size());
     renderer.setClearColor(Color::blue);
     auto camera = PerspectiveCamera::create();
-    camera->position.z = 10;
+    camera->position.z = 100;
     auto scene = Scene::create();
+    OrbitControls controls(*camera, canvas);
+
     Grid grid = Grid();
+    grid.Print();
+
 
 
 
