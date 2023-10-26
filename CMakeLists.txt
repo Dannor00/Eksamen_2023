@@ -17,3 +17,8 @@ add_executable(Tetris
 target_link_libraries(Tetris
         PRIVATE threepp::threepp
         PRIVATE imgui::imgui)
+
+target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Grid")
+target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Block")
+target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/colors")
+target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Position")
