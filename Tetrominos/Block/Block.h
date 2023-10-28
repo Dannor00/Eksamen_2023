@@ -7,18 +7,23 @@
 #pragma once
 #include "map"
 #include "vector"
-#include "../Position/Position.h"
+#include "Position.h"
+#include "colors.h"
+#include "threepp/threepp.hpp"
 
 class Block {
 
 public:
     Block();
+    void Draw(threepp::Scene* scene);
     int id;
     std::map<int, std::vector<Position>> cells;
 
 private:
     int cellSize;
     int rotationState;
+    std::vector<Color> colors;
+
 
 };
 

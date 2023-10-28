@@ -17,7 +17,7 @@ extern const threepp::Color purple;
 extern const threepp::Color cyan;
 extern const threepp::Color blue;
 
-[[maybe_unused]] std::vector<threepp::Color> GetCellColors();
+std::vector<threepp::Color> GetCellColors();
 
 
 

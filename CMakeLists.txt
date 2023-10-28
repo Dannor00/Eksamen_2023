@@ -12,6 +12,10 @@ add_executable(Tetris
         Tetrominos/Block/Block.cpp
         Tetrominos/Position/Position.cpp
         Tetrominos/colors/colors.cpp
+        Tetrominos/Block/blocks/blocks.cpp
+        Tetrominos/Block/Block.h
+        Tetrominos/colors/colors.h
+        Tetrominos/Position/Position.h
 )
 
 target_link_libraries(Tetris
@@ -22,3 +26,4 @@ target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Grid")
 target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Block")
 target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/colors")
 target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Position")
+target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Block/blocks")

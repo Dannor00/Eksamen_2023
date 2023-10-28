@@ -40,7 +40,13 @@ void Grid::Print()
 }
 
 void Grid::Draw(threepp::Scene* scene) {
-    int column; // Declare column outside of the loop
+    float gridWidth = numCols * cellSize;
+
+    // Calculate the center of the grid, taking into account the grid's width
+    float centerX = -gridWidth / 2.0;
+    float centerY = -250.0;
+
+    int column;
     for (int row = 0; row < numRows; row++) {
         for (column = 0; column < numCols; column++) {
             int cellValue = grid[row][column];
@@ -55,14 +61,17 @@ void Grid::Draw(threepp::Scene* scene) {
             // Create a mesh using the geometry and material
             auto cube = Mesh::create(geometry, material);
 
+            // Calculate the cube's position relative to the center
+            float xOffset = (column - numCols / 2) * cellSize;
+            float yOffset = (row - numRows / 2) * cellSize;
+
             // Set the position of the cube
-            cube->position.x = column * cellSize + 1;
-            cube->position.y = row * cellSize + 1;
+            cube->position.x = centerX + xOffset;
+            cube->position.y = centerY - yOffset; // Negative Y because Y-axis in 3D space is typically inverted
 
             scene->add(cube);
         }
     }
     auto sceneGrid = GridHelper::create(10);
     scene->add(sceneGrid);
-
 }

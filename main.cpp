@@ -1,7 +1,8 @@
 #include "threepp/extras/imgui/ImguiContext.hpp"
 #include "threepp/threepp.hpp"
 #include "thread"
-#include "Grid/grid.h"
+#include "Tetrominos/Block/blocks/blocks.cpp"
+#include "grid.h"
 
 using namespace threepp;
 
@@ -20,12 +21,10 @@ int main() {
     OrbitControls controls(*camera, canvas);
 
     Grid grid = Grid();
-    grid.grid[0][0] =1;
-    grid.grid[3][5] =4;
-    grid.grid[17][8] =7;
     grid.Print();
 
-
+    TBlock block = TBlock();
+    block.Draw(scene.get());
 
 
     /// Denne delen av koden er modifisert av chatgpt for å sette maksimum fps til 60
@@ -45,6 +44,7 @@ int main() {
             lag -= targetFrameTime;
         }
         grid.Draw(scene.get());
+
 
         renderer.render(*scene, *camera);
 
