@@ -23,7 +23,8 @@ int main() {
     Grid grid = Grid();
     grid.Print();
 
-    TBlock block = TBlock();
+
+    JBlock block = JBlock();
     block.Draw(scene.get());
 
 

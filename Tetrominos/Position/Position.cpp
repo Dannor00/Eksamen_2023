@@ -6,5 +6,5 @@
 
 Position::Position(int row, int colum) {
     this -> row = row;
-    this -> colum = colum;
+    this -> column = colum;
 }
