@@ -1,4 +1,3 @@
-#include "threepp/extras/imgui/ImguiContext.hpp"
 #include "threepp/threepp.hpp"
 #include "thread"
 #include "Tetrominos/Block/blocks/blocks.cpp"
@@ -10,7 +9,7 @@ using namespace threepp;
 int main() {
 
     Canvas canvas("Tetris", {{"aa", 4}});
-    canvas.setSize({300, 600});
+    canvas.setSize({500, 500});
 
     GLRenderer renderer(canvas.size());
     renderer.setClearColor(Color::blue);
