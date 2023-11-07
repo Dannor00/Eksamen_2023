@@ -19,6 +19,7 @@ add_executable(Tetris
         Tetrominos/colors/colors.h
         Tetrominos/Position/Position.h
         game/game.cpp
+
 )
 
 target_link_libraries(Tetris

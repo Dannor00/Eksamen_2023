@@ -14,8 +14,8 @@ public:
     Game();
     Block GetRandomBlock();
     std::vector<Block> GetAllBlocks();
-    Grid grid;
     void Draw(threepp::Scene*scene);
+    Grid grid;
 
 private:
     std::vector<Block> blocks;

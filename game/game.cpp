@@ -20,7 +20,12 @@ Block Game::GetRandomBlock()
     {
         blocks = GetAllBlocks();
     }
-    int randomIndex = rand() % blocks.size();
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, blocks.size() - 1);
+
+    int randomIndex = dist(gen);
+
     Block block = blocks[randomIndex];
     blocks.erase(blocks.begin() + randomIndex);
     return block;
@@ -35,4 +40,5 @@ void Game::Draw(threepp::Scene* scene)
 {
     grid.Draw(scene);
     currentBlock.Draw(scene);
-}
+
+    }

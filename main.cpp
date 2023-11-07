@@ -1,7 +1,6 @@
 #include "threepp/threepp.hpp"
 #include "thread"
-#include "Tetrominos/Block/blocks/blocks.cpp"
-#include "grid.h"
+#include "game/game.h"
 
 using namespace threepp;
 
@@ -19,12 +18,9 @@ int main() {
     auto scene = Scene::create();
     OrbitControls controls(*camera, canvas);
 
-    Grid grid = Grid();
-    grid.Print();
+    Game game = Game();
 
 
-    JBlock block = JBlock();
-    block.Draw(scene.get());
 
 
     /// Denne delen av koden er modifisert av chatgpt for å sette maksimum fps til 60
@@ -43,7 +39,7 @@ int main() {
         while (lag >= targetFrameTime) {
             lag -= targetFrameTime;
         }
-        grid.Draw(scene.get());
+       game.Draw(scene.get());
 
 
         renderer.render(*scene, *camera);
