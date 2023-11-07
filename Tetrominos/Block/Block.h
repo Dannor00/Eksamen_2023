@@ -1,7 +1,3 @@
-//
-// Created by Danie on 24.10.2023.
-//
-
 #ifndef EKSAMEN_2023_BLOCK_H
 #define EKSAMEN_2023_BLOCK_H
 #pragma once

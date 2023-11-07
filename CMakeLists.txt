@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(Eksamen_2023)
 
-option(TERRIS_BUILD_TESTS "Tetris funksjonstesting" ON)
+option(TERRIS_BUILD_TESTS "Enable Tetris function testing" ON)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -15,23 +15,21 @@ add_executable(Tetris
         Tetrominos/Position/Position.cpp
         Tetrominos/colors/colors.cpp
         Tetrominos/Block/blocks/blocks.cpp
-        Tetrominos/Block/Block.h
-        Tetrominos/colors/colors.h
-        Tetrominos/Position/Position.h
         game/game.cpp
-
 )
 
 target_link_libraries(Tetris
         PRIVATE threepp::threepp
-        PRIVATE imgui::imgui)
+        PRIVATE imgui::imgui
+)
 
-target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Grid")
-target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Block")
-target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/colors")
-target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Position")
-target_include_directories(Tetris PRIVATE "${CMAKE_SOURCE_DIR}/Tetrominos/Block/blocks")
-
+target_include_directories(Tetris PRIVATE
+        "${CMAKE_SOURCE_DIR}/Grid"
+        "${CMAKE_SOURCE_DIR}/Tetrominos/Block"
+        "${CMAKE_SOURCE_DIR}/Tetrominos/colors"
+        "${CMAKE_SOURCE_DIR}/Tetrominos/Position"
+        "${CMAKE_SOURCE_DIR}/Tetrominos/Block/blocks"
+)
 # ============================
 # Testing
 # ============================

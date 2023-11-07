@@ -1,21 +1,21 @@
-//
-// Created by Danie on 24.10.2023.
-//
 #include "threepp/threepp.hpp"
 #include "colors.h"
 
 using namespace threepp;
 
-const threepp::Color grey = Color::grey;
-const threepp::Color green = Color::green;
-const threepp::Color red = Color::red;
-const threepp::Color orange = Color::orange;
-const threepp::Color yellow = Color::yellow;
-const threepp::Color purple = Color::purple;
-const threepp::Color cyan = Color::cyan;
-const threepp::Color blue = Color::blue;
+const Color grey = Color::grey;
+const Color green = Color::green;
+const Color red = Color::red;
+const Color orange = Color::orange;
+const Color yellow = Color::yellow;
+const Color purple = Color::purple;
+const Color cyan = Color::cyan;
+const Color blue = Color::blue;
 
-std::vector<threepp::Color> GetCellColors() {
-    return {grey, green, red, orange, yellow, purple, cyan, blue};
+const std::vector<Color> cellColors = {grey, green, red, orange, yellow, purple, cyan, blue};
+
+std::vector<Color> GetCellColors() {
+    return cellColors;
 }
+
 

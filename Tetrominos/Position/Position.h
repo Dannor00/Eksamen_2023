@@ -1,19 +1,12 @@
-//
-// Created by Danie on 24.10.2023.
-//
-
 #ifndef EKSAMEN_2023_POSITION_H
 #define EKSAMEN_2023_POSITION_H
 #pragma once
 
-
-class Position{
-
+class Position {
 public:
-    Position(int row, int colum);
+    Position(int row, int column);
     int row;
     int column;
 };
-
 
 #endif //EKSAMEN_2023_POSITION_H

@@ -1,10 +1,5 @@
-//
-// Created by Danie on 24.10.2023.
-//
-
 #include "Block.h"
 #include "threepp/threepp.hpp"
-#include "grid.h"
 
 Block::Block() {
     cellSize = 30;
@@ -15,17 +10,16 @@ Block::Block() {
 }
 
 void Block::Draw(threepp::Scene* scene) {
-    float blockWidth = 10 * cellSize;  // juster om størelsen er feil
-    float blockHeight = 20 * cellSize;  // juster om størelsen er feil
+    float blockWidth = 10 * cellSize;
+    float blockHeight = 20 * cellSize;
 
-    // finner senter av tetromnoen
     float centerX = -blockWidth / 2.0;
     float centerY = blockHeight / 2.0;
 
     std::vector<Position> tiles = GetCellPositions();
-    for (Position items : tiles) {
-        float x = centerX + (items.column * cellSize);
-        float y = centerY - (items.row * cellSize); // Negative Y because Y-axis in 3D space is typically inverted
+    for (Position item : tiles) {
+        float x = centerX + (item.column * cellSize);
+        float y = centerY - (item.row * cellSize); // Negative Y because Y-axis in 3D space is typically inverted
         float z = 0;
 
         float width = cellSize - 1;
@@ -42,19 +36,17 @@ void Block::Draw(threepp::Scene* scene) {
         scene->add(boxMesh);
     }
 }
-void Block::Move(int rows, int columns)
-{
+
+void Block::Move(int rows, int columns) {
     rowOffset += rows;
     columnOffset += columns;
 }
 
-std::vector<Position> Block::GetCellPositions()
-{
+std::vector<Position> Block::GetCellPositions() {
     std::vector<Position> tiles = cells[rotationState];
     std::vector<Position> moveTiles;
-    for(Position item: tiles)
-    {
-        Position newPos = Position(item.row +rowOffset, item.column + columnOffset);
+    for (Position item : tiles) {
+        Position newPos = Position(item.row + rowOffset, item.column + columnOffset);
         moveTiles.push_back(newPos);
     }
     return moveTiles;
