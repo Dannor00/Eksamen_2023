@@ -1,59 +1,85 @@
-# Tetris-Like Game
+# Tetris C++ Spill
+
+## Beskrivelse
+
+Dette prosjektet er en implementering av det klassiske Tetris-spillet i C++ ved hjelp av trejs-biblioteket for 3D-grafikk og rendering.
+
+## Funksjoner
+
+- **3D Grafikk**: Spillet bruker threepp-biblioteket for å generere 3D-grafikk og visualisere Tetris-spillet.
+
+- **Tetris Logikk**: Spillet inkluderer Tetris-logikken, der spillbrikker faller ned og kan roteres og flyttes av spilleren.
+
+- **Mål 60 FPS**: Spillet sikter på å opprettholde en jevn ytelse ved å målrette mot 60 bilder per sekund.
+
+## Avhengigheter
+
+- [threepp](https://github.com/markaren/threepp): Trejs-biblioteket brukes til 3D-grafikk og rendering.
+
+- [Catch2](https://github.com/catchorg/Catch2): Catch2 brukes til enhetstester (valgfritt, krever aktivering).
+
+## Installasjon
+
+For å kompilere og kjøre spillet, må du ha CMake og de nødvendige avhengighetene installert.
+
+1. Klon dette repositoryet:
+git clone https://github.com/Dannor00/Eksamen_2023.git
+cd Eksamen_2023
 
 
-![Tetris Screenshot](screenshot.png)
+2. Opprett en byggmappe:
+mkdir build
+cd build
 
-Dette er en enkel Tetris-lignende spillapplikasjon bygget med C++ og Three.js for 2D rendering. Spillet inkluderer et spillbrett med 20 rader og 10 kolonner der du kan manipulere fallende tetromino-brikker for å score poeng.
 
-## Kjøring av spillet
+3. Generer CMake-prosjektet:
+cmake ..
 
-Før du starter spillet, må du sørge for at du har de nødvendige bibliotekene og avhengighetene installert. Du kan også bruke et CMake-basert byggesystem for å kompilere koden.
+4. Kompilér spillet:
+make
 
-1. **Installer avhengigheter:**
 
-   - Three.js: Last ned Three.js-biblioteket fra [https://threejs.org/](https://threejs.org/) og inkluder det i prosjektet.
-   - CMake: Installer CMake fra [https://cmake.org/](https://cmake.org/).
-
-2. **Bygg prosjektet:**
-
-   Kjør CMake for å konfigurere og generere byggfiler, deretter bygg prosjektet:
-
-   ```bash
-   mkdir build
-   cd build
-   cmake ..
-   cmake --build . --config Debug
-
-Kjør spillet:
-
-Kjør den kompilerte kjørbare filen:
+5. Kjør spillet:
 ./Tetris
 
 
-Spilleinstruksjoner
-Bruk piltastene for å bevege tetromino-brikkene (venstre, høyre, ned).
-Trykk på "Mellomrom" for å rotere brikken.
-Målet er å fylle hele raden med tetromino-brikker for å score poeng og fjerne raden.
-Tilpasning
-Dette er en grunnleggende implementasjon av Tetris, og du kan tilpasse det videre etter dine ønsker:
+### Oppsett av threepp vcpkg-test
 
-Legg til lydeffekter og musikk.
-Implementer spillpoeng og poengtavle.
-Legg til flere tetromino-brikker eller endre deres utseende.
-Forbedre spillgrafikken og grensesnittet.
-Bidrag
-Bidrag er velkomne! Hvis du har forslag til forbedringer eller ønsker å bidra til prosjektet, kan du sende inn en Pull Request.
+Hvis du vil inkludere threepp vcpkg-test i prosjektet, følg disse trinnene:
 
-Lisens
-Dette prosjektet er lisensiert under MIT-lisensen. Se LICENSE for mer informasjon.
+1. Erstatt `baseline`-verdien i vcpkg-configuration.json med en commit fra den tilpassede vcpkg-registret som inneholder threepp-porten.
+
+2. Legg til følgende CMake-variabler for avhengighetsoppløsning (pass på at du erstatter `[path to vcpkg]` med banen til vcpkg):
+
+-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
+
+med MinGW mp du spesifisere vcpkg:
+
+-DVCPKG_TARGET_TRIPLET=x64-mingw-[static|dynamic]  # choose either `static` or `dynamic`.
+-DVCPKG_HOST_TRIPLET=x64-mingw-[static|dynamic]    # <-- needed only if MSVC cannot be found. 
+
+## Spillkontroll
+
+- **Venstre- og høyrepiltastene**: Flytt brikken til venstre og høyre.
+- **Opp-piltasten**: Roter brikken.
+- **Ned-piltasten**: La brikken falle raskere.
+- **Mellomromstasten**: La brikken falle helt ned til bunnen.
+
+## Enhetstester
+
+Hvis du vil kjøre enhetstestene (krever at Catch2 er aktivert), gjør følgende:
+
+1. Aktiver enhetstest under CMake-konfigurasjonen ved å angi `-DTERRIS_BUILD_TESTS=ON`.
+
+2. Rekompiler prosjektet.
+
+3. Kjør enhetstestene ved å kjøre:
+
 
 Happy gaming!
 
 reffernasner 
 -https://www.youtube.com/watch?v=wVYKG_ch4yM&t=4057s
 -https://chat.openai.com/
-
-
-
 
 
