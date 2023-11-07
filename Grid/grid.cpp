@@ -1,15 +1,9 @@
-
-//
-// Created by Danie on 12.10.2023.
-//
 #include "threepp/threepp.hpp"
 #include "grid.h"
 #include "iostream"
 #include "colors.h"
 
-
-Grid::Grid()
-{
+Grid::Grid() {
     numRows = 20;
     numCols = 10;
     cellSize = 30;
@@ -18,22 +12,17 @@ Grid::Grid()
 }
 
 void Grid::initialize() {
-    for (int row = 0; row < numRows; row++)
-    {
-        for (int colum = 0; colum < numCols; colum++)
-        {
-            grid[row][colum] =0;
+    for (int row = 0; row < numRows; row++) {
+        for (int column = 0; column < numCols; column++) {
+            grid[row][column] = 0;
         }
-
     }
 }
-void Grid::Print()
-{
-    for (int row = 0; row < numRows; row++)
-    {
-        for (int colum =0; colum < numCols; colum++)
-        {
-            std::cout << grid[row][colum] <<" ";
+
+void Grid::Print() {
+    for (int row = 0; row < numRows; row++) {
+        for (int column = 0; column < numCols; column++) {
+            std::cout << grid[row][column] << " ";
         }
         std::cout << std::endl;
     }

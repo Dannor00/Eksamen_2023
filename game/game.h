@@ -1,20 +1,18 @@
-//
-// Created by Danie on 01.11.2023.
-//
-
 #ifndef EKSAMEN_2023_GAME_H
 #define EKSAMEN_2023_GAME_H
+
 #pragma once
+
 #include "grid.h"
 #include "blocks/blocks.cpp"
 
-class Game{
-
+class Game {
 public:
     Game();
     Block GetRandomBlock();
     std::vector<Block> GetAllBlocks();
-    void Draw(threepp::Scene*scene);
+    void Draw(threepp::Scene* scene);
+
     Grid grid;
 
 private:
@@ -23,7 +21,5 @@ private:
     Block nextBlock;
 };
 
+#endif // EKSAMEN_2023_GAME_H
 
-
-
-#endif //EKSAMEN_2023_GAME_H
