@@ -12,6 +12,10 @@ Dette prosjektet er en implementering av det klassiske Tetris-spillet i C++ ved 
 
 - **Mål 60 FPS**: Spillet sikter på å opprettholde en jevn ytelse ved å målrette mot 60 bilder per sekund.
 
+- **Enhetstester**: Spillet bruker Catch2 som et enhetstestrammeverk for å sikre påliteligheten til koden.
+
+- **Continuous Integration**: Continuous Integration (CI) er implementert for automatisk bygging og testing av prosjektet.
+
 ## Avhengigheter
 
 - [threepp](https://github.com/markaren/threepp): Trejs-biblioteket brukes til 3D-grafikk og rendering.
@@ -74,7 +78,7 @@ Hvis du vil kjøre enhetstestene (krever at Catch2 er aktivert), gjør følgende
 2. Rekompiler prosjektet.
 
 3. Kjør enhetstestene ved å kjøre:
-
+allTestes
 
 Happy gaming!
 
