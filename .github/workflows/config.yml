@@ -65,5 +65,5 @@ jobs:
 
       - name: Configure and build
         run: |
-          cmake . -B build -DCI_TEST_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Release"
+          cmake . -B build -DCI_TEST_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE="Release"
           cmake --build build
