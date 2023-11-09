@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <random>
 #include "grid.h"
 #include "blocks/blocks.cpp"
 
@@ -11,8 +12,9 @@ public:
     Game();
     Block GetRandomBlock();
     std::vector<Block> GetAllBlocks();
+    std::random_device rd;
+    std::mt19937 gen;
     void Draw(threepp::Scene* scene);
-
     Grid grid;
 
 private:
