@@ -50,7 +50,15 @@ int main() {
         renderer.render(*scene, *camera);
 
         // Sleep to limit the frame rate to 60 fps
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 60));
+        auto frameRenderTime = clock.getElapsedTime() - currentTime;
+        auto sleepDuration = std::chrono::milliseconds(static_cast<int> ((targetFrameTime - frameRenderTime) * 1000));
+        std::this_thread::sleep_for(sleepDuration);
+
+        // Update the FPS counter
+
+        // Update the orbit controls
+        controls.update();
+
 
         // Continue rendering loop
     });
