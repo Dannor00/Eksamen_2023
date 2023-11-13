@@ -10,12 +10,12 @@ find_package(imgui CONFIG REQUIRED)
 
 add_executable(Tetris
         main.cpp
-        Grid/grid.cpp
-        Tetrominos/Block/Block.cpp
-        Tetrominos/Position/Position.cpp
-        Tetrominos/colors/colors.cpp
-        Tetrominos/Block/blocks/blocks.cpp
-        game/game.cpp
+        src/grid.cpp
+        src/Block.cpp
+        src/Position.cpp
+        src/colors.cpp
+        src/blocks.cpp
+        src/game.cpp
 )
 
 target_link_libraries(Tetris
@@ -23,28 +23,23 @@ target_link_libraries(Tetris
         PRIVATE imgui::imgui
 )
 
-target_include_directories(Tetris PRIVATE
-        "${CMAKE_SOURCE_DIR}/Grid"
-        "${CMAKE_SOURCE_DIR}/Tetrominos/Block"
-        "${CMAKE_SOURCE_DIR}/Tetrominos/colors"
-        "${CMAKE_SOURCE_DIR}/Tetrominos/Position"
-        "${CMAKE_SOURCE_DIR}/Tetrominos/Block/blocks"
-)
+add_subdirectory(src)
+
 # ============================
 # Testing
 # ============================
 if (TERRIS_BUILD_TESTS)
 
-# Download Catch2 unit-test framework from GitHub
-include(FetchContent)
-FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG v3.4.0
-)
-FetchContent_MakeAvailable(Catch2)
+    # Download Catch2 unit-test framework from GitHub
+    include(FetchContent)
+    FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG v3.4.0
+    )
+    FetchContent_MakeAvailable(Catch2)
 
-enable_testing()
-add_subdirectory(tests)
+    enable_testing()
+    add_subdirectory(tests)
 
 endif ()

@@ -1,5 +1,5 @@
 #include "threepp/threepp.hpp"
-#include "colors.h"
+#include "../include/colors.hpp"
 
 using namespace threepp;
 

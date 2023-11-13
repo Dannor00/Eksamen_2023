@@ -13,6 +13,7 @@ public:
     const std::string &getFirstName() const {
         return firstName_;
     }
+
     const std::string &getLastName() const {
         return lastName_;
     }
