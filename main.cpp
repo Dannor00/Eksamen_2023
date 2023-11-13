@@ -1,6 +1,6 @@
 #include "threepp/threepp.hpp"
 #include "thread"
-#include "game/game.h"
+#include "include/game.hpp"
 
 using namespace threepp;
 
@@ -40,10 +40,16 @@ int main() {
         previousTime = currentTime;
         lag += elapsed;
 
-        // Process game logic in fixed time steps
+        // Process game logic and render in the same loop
         while (lag >= targetFrameTime) {
             lag -= targetFrameTime;
-            game.Draw(scene.get()); // Update the game state
+
+            // Update the game state
+            // (You can add game logic directly here if you don't want a separate Update function)
+            // For example, game.Move(), game.CheckCollision(), etc.
+
+            // Draw the updated game state
+            game.Draw(*scene);
         }
 
         // Render the scene
@@ -51,14 +57,11 @@ int main() {
 
         // Sleep to limit the frame rate to 60 fps
         auto frameRenderTime = clock.getElapsedTime() - currentTime;
-        auto sleepDuration = std::chrono::milliseconds(static_cast<int> ((targetFrameTime - frameRenderTime) * 1000));
+        auto sleepDuration = std::chrono::milliseconds(static_cast<int>((targetFrameTime - frameRenderTime) * 1000));
         std::this_thread::sleep_for(sleepDuration);
-
-        // Update the FPS counter
 
         // Update the orbit controls
         controls.update();
-
 
         // Continue rendering loop
     });

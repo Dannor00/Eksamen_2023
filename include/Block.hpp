@@ -1,19 +1,24 @@
-#ifndef EKSAMEN_2023_BLOCK_H
-#define EKSAMEN_2023_BLOCK_H
+#ifndef EKSAMEN_2023_BLOCK_HPP
+#define EKSAMEN_2023_BLOCK_HPP
 #pragma once
+
 #include "map"
 #include "vector"
-#include "Position.h"
-#include "colors.h"
+#include "Position.hpp"
+#include "colors.hpp"
 #include "threepp/threepp.hpp"
 
 class Block {
 
 public:
     Block();
-    void Draw(threepp::Scene* scene);
+
+    void Draw(threepp::Scene &scene);
+
     void Move(int rows, int columns);
+
     std::vector<Position> GetCellPositions();
+
     int id;
     std::map<int, std::vector<Position>> cells;
 
@@ -28,4 +33,4 @@ private:
 };
 
 
-#endif //EKSAMEN_2023_BLOCK_H
+#endif //EKSAMEN_2023_BLOCK_HPP

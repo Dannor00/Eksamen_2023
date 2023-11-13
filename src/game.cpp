@@ -1,5 +1,5 @@
 #include "vector"
-#include "game.h"
+#include "../include/game.hpp"
 #include <random>
 
 Game::Game() {
@@ -28,7 +28,7 @@ std::vector<Block> Game::GetAllBlocks() {
     return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 }
 
-void Game::Draw(threepp::Scene* scene) {
+void Game::Draw(threepp::Scene &scene) {
     grid.Draw(scene);
     currentBlock.Draw(scene);
 }

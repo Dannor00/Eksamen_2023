@@ -1,4 +1,4 @@
-#include "Block.h"
+#include "../include/Block.hpp"
 #include "threepp/threepp.hpp"
 
 Block::Block() {
@@ -9,15 +9,18 @@ Block::Block() {
     columnOffset = 0;
 }
 
-void Block::Draw(threepp::Scene* scene) {
+void Block::Draw(threepp::Scene &scene) {
     float blockWidth = 10 * cellSize;
     float blockHeight = 20 * cellSize;
 
     float centerX = -blockWidth / 2.0;
     float centerY = blockHeight / 2.0;
 
+    // Bruk en smart peker til å administrere Mesh-objektene
+    std::vector<std::shared_ptr<Mesh>> boxes;
+
     std::vector<Position> tiles = GetCellPositions();
-    for (Position item : tiles) {
+    for (const Position &item: tiles) {
         float x = centerX + (item.column * cellSize);
         float y = centerY - (item.row * cellSize); // Negative Y because Y-axis in 3D space is typically inverted
         float z = 0;
@@ -33,9 +36,15 @@ void Block::Draw(threepp::Scene* scene) {
         boxMesh->position.y = y;
         boxMesh->position.z = z;
 
-        scene->add(boxMesh);
+        boxes.push_back(boxMesh);
+    }
+
+    // Legg til alle Mesh-objektene til scenen
+    for (const auto &box: boxes) {
+        scene.add(box);
     }
 }
+
 
 void Block::Move(int rows, int columns) {
     rowOffset += rows;
@@ -45,7 +54,7 @@ void Block::Move(int rows, int columns) {
 std::vector<Position> Block::GetCellPositions() {
     std::vector<Position> tiles = cells[rotationState];
     std::vector<Position> moveTiles;
-    for (Position item : tiles) {
+    for (Position item: tiles) {
         Position newPos = Position(item.row + rowOffset, item.column + columnOffset);
         moveTiles.push_back(newPos);
     }

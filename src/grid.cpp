@@ -1,7 +1,7 @@
-#include "threepp/threepp.hpp"
-#include "grid.h"
 #include "iostream"
-#include "colors.h"
+#include "../include/grid.hpp"
+#include "../include/colors.hpp"
+
 
 Grid::Grid() {
     numRows = 20;
@@ -12,11 +12,8 @@ Grid::Grid() {
 }
 
 void Grid::initialize() {
-    for (int row = 0; row < numRows; row++) {
-        for (int column = 0; column < numCols; column++) {
-            grid[row][column] = 0;
-        }
-    }
+    // Initialize the 2D vector with zeros
+    grid.assign(numRows, std::vector<int>(numCols, 0));
 }
 
 void Grid::Print() {
@@ -28,7 +25,7 @@ void Grid::Print() {
     }
 }
 
-void Grid::Draw(threepp::Scene* scene) {
+void Grid::Draw(threepp::Scene &scene) {
     float gridWidth = numCols * cellSize;
     float gridHeight = numRows * cellSize;
 
@@ -36,9 +33,11 @@ void Grid::Draw(threepp::Scene* scene) {
     float centerX = -gridWidth / 2.0;
     float centerY = gridHeight / 2.0;
 
-    int column;
+    // Bruk en smart peker til å administrere Mesh-objektene
+    std::vector<std::shared_ptr<Mesh>> cubes;
+
     for (int row = 0; row < numRows; row++) {
-        for (column = 0; column < numCols; column++) {
+        for (int column = 0; column < numCols; column++) {
             int cellValue = grid[row][column];
 
             // Create a cube geometry to represent the grid cell
@@ -60,7 +59,13 @@ void Grid::Draw(threepp::Scene* scene) {
             cube->position.y = y;
             cube->position.z = z;
 
-            scene->add(cube);
+            cubes.push_back(cube);
         }
     }
+
+    // Legg til alle Mesh-objektene til scenen
+    for (const auto &cube: cubes) {
+        scene.add(cube);
+    }
 }
+

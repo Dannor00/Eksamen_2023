@@ -1,20 +1,25 @@
-#ifndef EKSAMEN_2023_GAME_H
-#define EKSAMEN_2023_GAME_H
+#ifndef EKSAMEN_2023_GAME_HPP
+#define EKSAMEN_2023_GAME_HPP
 
 #pragma once
 
 #include <random>
-#include "grid.h"
-#include "blocks/blocks.cpp"
+#include "grid.hpp"
+#include "../src/blocks.cpp"
 
 class Game {
 public:
     Game();
+
     Block GetRandomBlock();
+
     std::vector<Block> GetAllBlocks();
+
     std::random_device rd;
     std::mt19937 gen;
-    void Draw(threepp::Scene* scene);
+
+    void Draw(threepp::Scene &scene);
+
     Grid grid;
 
 private:
@@ -23,5 +28,5 @@ private:
     Block nextBlock;
 };
 
-#endif // EKSAMEN_2023_GAME_H
+#endif // EKSAMEN_2023_GAME_HPP
 

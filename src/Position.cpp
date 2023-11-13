@@ -1,4 +1,4 @@
-#include "Position.h"
+#include "../include/Position.hpp"
 
 Position::Position(int row, int column) {
     this->row = row;
