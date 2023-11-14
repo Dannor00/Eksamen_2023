@@ -25,13 +25,17 @@ void Grid::Print() {
     }
 }
 
-void Grid::Draw(threepp::Scene &scene) {
+void Grid::Draw(threepp::Scene& scene) {
     float gridWidth = numCols * cellSize;
     float gridHeight = numRows * cellSize;
 
+    // Calculate the center of the grid, taking into account the grid's width
     // Calculate the center of the grid
     float centerX = -gridWidth / 2.0;
     float centerY = gridHeight / 2.0;
+
+    // Clear the scene at the beginning of each frame
+    scene.clear();
 
     // Bruk en smart peker til å administrere Mesh-objektene
     std::vector<std::shared_ptr<Mesh>> cubes;

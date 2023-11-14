@@ -61,7 +61,7 @@ int main() {
         std::this_thread::sleep_for(sleepDuration);
 
         // Update the orbit controls
-        controls.update();
+        //controls.update();
 
         // Continue rendering loop
     });
