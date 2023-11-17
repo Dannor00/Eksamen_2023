@@ -16,6 +16,7 @@ add_executable(Tetris
         src/colors.cpp
         src/blocks.cpp
         src/game.cpp
+        src/keyobserver.cpp
 )
 
 target_link_libraries(Tetris
