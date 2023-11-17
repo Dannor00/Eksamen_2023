@@ -1,6 +1,7 @@
 #include "threepp/threepp.hpp"
 #include "thread"
 #include "include/game.hpp"
+#include "include/keyobserver.hpp"
 
 using namespace threepp;
 
@@ -20,8 +21,7 @@ int main() {
     // Create a 3D scene
     auto scene = Scene::create();
 
-    // Initialize orbit controls for camera manipulation
-    OrbitControls controls(*camera, canvas);
+
 
     // Initialize the game
     Game game = Game();
@@ -29,6 +29,10 @@ int main() {
     // Set the target frame time for 60 fps
     const double targetFrameTime = 1.0 / 60.0; // Target time for 60 fps (in seconds)
     Clock clock;
+
+
+    MyKeyListener kl{clock.elapsedTime};
+    canvas.addKeyListener(&kl);
 
     double previousTime = clock.getElapsedTime();
     double lag = 0.0;
@@ -60,8 +64,6 @@ int main() {
         auto sleepDuration = std::chrono::milliseconds(static_cast<int>((targetFrameTime - frameRenderTime) * 1000));
         std::this_thread::sleep_for(sleepDuration);
 
-        // Update the orbit controls
-        //controls.update();
 
         // Continue rendering loop
     });
