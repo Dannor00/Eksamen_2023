@@ -25,7 +25,7 @@ void Grid::Print() {
     }
 }
 
-void Grid::Draw(threepp::Scene& scene) {
+void Grid::Draw(threepp::Scene &scene) {
     float gridWidth = numCols * cellSize;
     float gridHeight = numRows * cellSize;
 

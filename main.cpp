@@ -1,29 +1,10 @@
 #include "threepp/threepp.hpp"
 #include "thread"
 #include "include/game.hpp"
-
+#include "include/Keylistner.hpp"
 
 using namespace threepp;
 
-class MyKeyListener : public KeyListener {
-public:
-    MyKeyListener(Game& game) : game(game) {}
-
-    void onKeyPressed(KeyEvent evt) override {
-        if (evt.key == threepp::Key::W) {
-            game.moveCurrentBlock(-1, 0); // Example: Move up by decreasing row
-        } else if (evt.key == threepp::Key::S) {
-            game.moveCurrentBlock(1, 0);  // Example: Move down by increasing row
-        } else if (evt.key == threepp::Key::D) {
-            game.moveCurrentBlock(0, 1);  // Example: Move right by increasing column
-        } else if (evt.key == threepp::Key::A) {
-            game.moveCurrentBlock(0, -1); // Example: Move left by decreasing column
-        }
-    }
-
-private:
-    Game& game;
-};
 
 int main() {
     // Create a canvas for rendering
@@ -66,9 +47,9 @@ int main() {
             lag -= targetFrameTime;
 
             // Update the game state
-           game.Update();
+            game.Update();
 
-           game.Draw(*scene);
+            game.Draw(*scene);
         }
 
         // Render the scene
