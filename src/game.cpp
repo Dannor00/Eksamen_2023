@@ -2,8 +2,8 @@
 #include "../include/game.hpp"
 #include <random>
 
-Game::Game() {
-    grid = Grid();
+
+Game::Game() : grid(Grid()) {
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
@@ -28,7 +28,20 @@ std::vector<Block> Game::GetAllBlocks() {
     return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 }
 
-void Game::Draw(threepp::Scene &scene) {
+void Game::Draw(threepp::Scene& scene) {
     grid.Draw(scene);
     currentBlock.Draw(scene);
 }
+
+void Game::Update() {
+    // Add your game logic here
+    // For example, handling block movements, collisions, etc.
+    // Example: currentBlock.move(1, 0); // Move the current block down
+}
+
+
+void Game::moveCurrentBlock(int rows, int columns) {
+    currentBlock.Move(rows, columns);
+}
+
+// Other member function definitions...

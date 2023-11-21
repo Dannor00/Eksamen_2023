@@ -10,17 +10,15 @@
 class Game {
 public:
     Game();
-
     Block GetRandomBlock();
-
     std::vector<Block> GetAllBlocks();
-
     std::random_device rd;
     std::mt19937 gen;
-
     void Draw(threepp::Scene &scene);
-
     Grid grid;
+    void Game::moveCurrentBlock(int rows, int columns);
+    void Update();
+
 
 private:
     std::vector<Block> blocks;
