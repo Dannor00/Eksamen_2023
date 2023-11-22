@@ -9,7 +9,7 @@ using namespace threepp;
 int main() {
     // Create a canvas for rendering
     Canvas canvas("Tetris", {{"aa", 4}});
-    canvas.setSize({1000, 1000});
+    canvas.setSize({1000, 900});
 
     // Initialize the renderer
     GLRenderer renderer(canvas.size());
