@@ -3,7 +3,8 @@
 #include <random>
 
 
-Game::Game() : grid(Grid()) {
+Game::Game() : grid(Grid()),
+    rd(), gen(rd()) {
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
@@ -14,8 +15,6 @@ Block Game::GetRandomBlock() {
         blocks = GetAllBlocks();
     }
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, blocks.size() - 1);
     int randomIndex = dist(gen);
 
@@ -43,5 +42,3 @@ void Game::Update() {
 void Game::moveCurrentBlock(int rows, int columns) {
     currentBlock.Move(rows, columns);
 }
-
-// Other member function definitions...

@@ -10,27 +10,20 @@
 class Game {
 public:
     Game();
-
     Block GetRandomBlock();
-
     static std::vector<Block> GetAllBlocks();
-
-    std::random_device rd;
-    std::mt19937 gen;
-
     void Draw(threepp::Scene &scene);
-
+    void Game::moveCurrentBlock(int rows, int columns);
+    void Update();
     Grid grid;
 
-    void Game::moveCurrentBlock(int rows, int columns);
-
-    void Update();
-
-
 private:
+    bool IsBlockOutide();
     std::vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;
+    std::random_device rd;
+    std::mt19937 gen;
 };
 
 #endif // EKSAMEN_2023_GAME_HPP
