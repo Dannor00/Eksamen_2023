@@ -22,6 +22,9 @@ public:
 
     int rowOffset;
     int columnOffset;
+
+    void Rotate();
+
 private:
     int cellSize;
     int rotationState;

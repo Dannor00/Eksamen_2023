@@ -83,3 +83,7 @@ bool Game::IsBlockOutside(const Block& block, int rows, int columns) {
 void Game::moveCurrentBlock(int rows, int columns) {
     currentBlock.Move(rows, columns);
 }
+
+void Game::RotateBlock() {
+    currentBlock.Rotate();
+}
