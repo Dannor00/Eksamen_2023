@@ -11,9 +11,10 @@ public:
     void Draw(threepp::Scene &scene);
 
 
-private:
     int numRows;
     int numCols;
+    std::vector<std::vector<int>> grid;
+private:
     int cellSize;
-    std::vector<std::vector<int>> grid;  // 2D vector to replace C array
+    // 2D vector to replace C array
 };

@@ -47,7 +47,7 @@ int main() {
             lag -= targetFrameTime;
 
             // Update the game state
-            game.Update();
+            game.Update(*scene);
 
             game.Draw(*scene);
         }

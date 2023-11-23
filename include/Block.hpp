@@ -16,18 +16,21 @@ public:
     int id;
     std::map<int, std::vector<Position>> cells;
     std::vector<Position> GetCellPositions();
+    std::vector<Position> GetCellPositionsAfterMove(int rows, int columns) const;
+    bool IsBlockOutside(const Block& block, int rows, int columns);
 
+
+    int rowOffset;
+    int columnOffset;
 private:
     int cellSize;
     int rotationState;
     std::vector<Color> colors;
-    int rowOffset;
-    int columnOffset;
-    float maxSpeed_;
-    threepp::Vector3 size_;
-    threepp::Vector3 position_;
 
 };
 
 
 #endif //EKSAMEN_2023_BLOCK_HPP
+
+
+
