@@ -23,7 +23,7 @@ void Grid::Print() {
     }
 }
 
-void Grid::Draw(threepp::Scene &scene) {
+void Grid::Draw(threepp::Scene &scene) const {
     float gridWidth = numCols * cellSize;
     float gridHeight = numRows * cellSize;
 
@@ -41,7 +41,6 @@ void Grid::Draw(threepp::Scene &scene) {
     // Iterate over the grid and create cubes
     for (int row = 0; row < numRows; row++) {
         for (int column = 0; column < numCols; column++) {
-            int cellValue = grid[row][column];
 
             // Create a mesh using the shared geometry and material
             auto cube = threepp::Mesh::create(geometry, material);
@@ -56,5 +55,5 @@ void Grid::Draw(threepp::Scene &scene) {
             scene.add(cube);
         }
     }
-;}
+}
 

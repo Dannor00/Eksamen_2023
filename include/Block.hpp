@@ -11,19 +11,17 @@
 class Block {
 public:
     Block();
+    void Rotate();
     void Draw(threepp::Scene &scene);
     void Move(int rows, int columns);
-    int id;
     std::map<int, std::vector<Position>> cells;
     std::vector<Position> GetCellPositions();
     std::vector<Position> GetCellPositionsAfterMove(int rows, int columns) const;
-    bool IsBlockOutside(const Block& block, int rows, int columns);
-
-
+    bool IsBlockOutside(const Block &block, int rows, int columns);
     int rowOffset;
     int columnOffset;
+    int id;
 
-    void Rotate();
 
 private:
     int cellSize;

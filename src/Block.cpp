@@ -20,7 +20,7 @@ void Block::Draw(threepp::Scene &scene) {
     std::vector<std::shared_ptr<threepp::Mesh>> boxes;
 
     std::vector<Position> tiles = GetCellPositions();
-    for (const Position &item : tiles) {
+    for (const Position &item: tiles) {
         float x = centerX + (item.column * cellSize);
         float y = centerY - (item.row * cellSize);
         float z = 0;
@@ -39,7 +39,7 @@ void Block::Draw(threepp::Scene &scene) {
         boxes.push_back(boxMesh);
     }
 
-    for (const auto &box : boxes) {
+    for (const auto &box: boxes) {
         scene.add(box);
     }
 }
@@ -50,13 +50,13 @@ void Block::Move(int rows, int columns) {
 
     // Optional: Add boundary checks to restrict movement
     rowOffset = std::max(-1, rowOffset);  // Ensure the block stays within the top boundary
-     columnOffset = std::max(-1, columnOffset);  // Ensure the block stays within the left boundary
+    columnOffset = std::max(-1, columnOffset);  // Ensure the block stays within the left boundary
 }
 
 std::vector<Position> Block::GetCellPositions() {
     std::vector<Position> tiles = cells[rotationState];
     std::vector<Position> moveTiles;
-    for (Position item : tiles) {
+    for (Position item: tiles) {
         Position newPos = Position(item.row + rowOffset, item.column + columnOffset);
         moveTiles.push_back(newPos);
     }
@@ -67,16 +67,16 @@ std::vector<Position> Block::GetCellPositions() {
 std::vector<Position> Block::GetCellPositionsAfterMove(int rows, int columns) const {
     std::vector<Position> tiles = cells.at(rotationState);
     std::vector<Position> moveTiles;
-    for (Position item : tiles) {
+    for (Position item: tiles) {
         Position newPos = Position(item.row + rowOffset + rows, item.column + columnOffset + columns);
         moveTiles.push_back(newPos);
     }
     return moveTiles;
 }
+
 void Block::Rotate() {
-    rotationState ++;
-    if (rotationState ==(int) cells.size())
-    {
-        rotationState =0;
+    rotationState++;
+    if (rotationState == (int) cells.size()) {
+        rotationState = 0;
     }
 }

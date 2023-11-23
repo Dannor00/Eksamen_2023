@@ -2,6 +2,7 @@
 #include "thread"
 #include "include/game.hpp"
 #include "include/Keylistner.hpp"
+#include "include/CalculateTime.hpp"
 
 using namespace threepp;
 
@@ -25,6 +26,9 @@ int main() {
     // Initialize the game
     Game game = Game();
 
+    // Create an instance of TimeUtils
+    TimeUtils timeUtils;
+
     // Set the target frame time for 60 fps
     const double targetFrameTime = 1.0 / 60.0; // Target time for 60 fps (in seconds)
     Clock clock;
@@ -45,9 +49,9 @@ int main() {
         // Process game logic in a separate update function
         while (lag >= targetFrameTime) {
             lag -= targetFrameTime;
-
+            float deltaTime = timeUtils.calculateDeltaTime();  // Use the instance
             // Update the game state
-            game.Update(*scene);
+            game.Update(*scene, deltaTime);
 
             game.Draw(*scene);
         }
@@ -65,4 +69,3 @@ int main() {
 
     return 0;
 }
-

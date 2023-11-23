@@ -24,25 +24,30 @@ std::vector<Block> Game::GetAllBlocks() {
     return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 }
 
-void Game::Update(threepp::Scene &scene) {
-    if (!IsBlockOutside(currentBlock, -1, 0) && !IsCollision(currentBlock, -1, 0)) {
-        currentBlock.Move(-1, 0);
+void Game::Update(threepp::Scene &scene, float deltaTime) {
+    // Update the elapsed time
+    elapsedSinceLastFall += deltaTime;
+
+    // Check if it's time to move the block down
+    if (elapsedSinceLastFall >= blockFallInterval) {
+        // Reset the timer
+        elapsedSinceLastFall = 0.0f;
+
+        // Attempt to move the block down
+        if (!IsBlockOutside(currentBlock, 1, 0) && !IsCollision(currentBlock, 1, 0)) {
+            currentBlock.Move(1, 0);
+        }
     }
 
-    if (!IsBlockOutside(currentBlock, 0, -1) && !IsCollision(currentBlock, 0, -1)) {
-        currentBlock.Move(0, -1);
-    }
+    // Handle other updates (e.g., user input)
+    // ...
 
-    if (!IsBlockOutside(currentBlock, 0, 1) && !IsCollision(currentBlock, 0, 1)) {
-        currentBlock.Move(0, 1);
-    }
-
-    if (!IsBlockOutside(currentBlock, 1, 0) && !IsCollision(currentBlock, 1, 0)) {
-        currentBlock.Move(1, 0);
-    }
+    // Continue with the rest of the update logic...
 
     currentBlock.Draw(scene);
 }
+
+
 
 void Game::Draw(threepp::Scene &scene) {
     grid.Draw(scene);
@@ -53,11 +58,11 @@ bool Game::IsCollision(const Block &block, int rows, int columns) {
     return false;
 }
 
-bool Game::IsBlockOutside(const Block& block, int rows, int columns) {
+bool Game::IsBlockOutside(const Block &block, int rows, int columns) {
     std::vector<Position> newPositions = block.GetCellPositionsAfterMove(rows, columns);
 
     // Check if any of the new positions are outside the grid boundaries
-    for (const auto& newPos : newPositions) {
+    for (const auto &newPos: newPositions) {
         // Allow blocks to reach the topmost position of the grid
         if (newPos.row < 0) {
             continue; // Allow block to move to the top
