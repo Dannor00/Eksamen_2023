@@ -1,4 +1,3 @@
-#include "iostream"
 #include "../include/game.hpp"
 
 
@@ -51,41 +50,34 @@ void Game::Draw(threepp::Scene &scene) {
 }
 
 bool Game::IsCollision(const Block &block, int rows, int columns) {
-    std::vector<Position> newPositions = block.GetCellPositionsAfterMove(rows, columns);
-
-    for (const auto &newPos : newPositions) {
-        if (newPos.row < 0 || newPos.row >= grid.numRows || newPos.column < 0 || newPos.column >= grid.numCols) {
-            return true;
-        }
-
-        if (grid.grid[newPos.row][newPos.column] != 0) {
-            return true;
-        }
-    }
-
     return false;
 }
 
-bool Game::IsBlockOutside(const Block &block, int rows, int columns) {
+bool Game::IsBlockOutside(const Block& block, int rows, int columns) {
     std::vector<Position> newPositions = block.GetCellPositionsAfterMove(rows, columns);
 
-    for (const auto &newPos : newPositions) {
+    // Check if any of the new positions are outside the grid boundaries
+    for (const auto& newPos : newPositions) {
+        // Allow blocks to reach the topmost position of the grid
         if (newPos.row < 0) {
-            if (rows == 1) {
-                return false;
-            }
-            return true;
+            continue; // Allow block to move to the top
         }
 
+        // Allow blocks to reach the leftmost position of the grid
         if (newPos.column < 0) {
-            if (columns == -1) {
-                return false;
-            }
-            return true;
+            continue; // Allow block to move to the left
+        }
+
+        if (newPos.row >= grid.numRows || newPos.column >= grid.numCols) {
+            return true; // Collision with right or bottom boundary
+        }
+
+        if (grid.grid[newPos.row][newPos.column] != 0) {
+            return true; // Collision with existing occupied cell in the grid
         }
     }
 
-    return false;
+    return false; // Block is within the grid
 }
 
 void Game::moveCurrentBlock(int rows, int columns) {
