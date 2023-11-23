@@ -12,18 +12,21 @@ public:
     Game();
     Block GetRandomBlock();
     static std::vector<Block> GetAllBlocks();
-    void Draw(threepp::Scene &scene);
-    void Game::moveCurrentBlock(int rows, int columns);
-    void Update();
+    void Update(threepp::Scene& scene);
+    void Draw(threepp::Scene& scene);
+    void moveCurrentBlock(int rows, int columns);
+    bool IsBlockOutside(const Block& block, int rows, int columns);
+
     Grid grid;
 
 private:
-    bool IsBlockOutide();
     std::vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;
     std::random_device rd;
     std::mt19937 gen;
+
+    bool IsCollision(const Block &block, int rows, int columns);
 };
 
 #endif // EKSAMEN_2023_GAME_HPP
