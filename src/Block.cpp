@@ -49,8 +49,8 @@ void Block::Move(int rows, int columns) {
     columnOffset += columns;
 
     // Optional: Add boundary checks to restrict movement
-    rowOffset = std::max(0, rowOffset);  // Ensure the block stays within the top boundary
-    columnOffset = std::max(0, columnOffset);  // Ensure the block stays within the left boundary
+    rowOffset = std::max(-1, rowOffset);  // Ensure the block stays within the top boundary
+     columnOffset = std::max(-1, columnOffset);  // Ensure the block stays within the left boundary
 }
 
 std::vector<Position> Block::GetCellPositions() {
@@ -63,6 +63,7 @@ std::vector<Position> Block::GetCellPositions() {
     return moveTiles;
 }
 
+
 std::vector<Position> Block::GetCellPositionsAfterMove(int rows, int columns) const {
     std::vector<Position> tiles = cells.at(rotationState);
     std::vector<Position> moveTiles;
@@ -72,5 +73,3 @@ std::vector<Position> Block::GetCellPositionsAfterMove(int rows, int columns) co
     }
     return moveTiles;
 }
-
-// ... (existing code for LBlock, JBlock, IBlock, OBlock, SBlock, TBlock, ZBlock)
