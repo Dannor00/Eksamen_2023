@@ -73,3 +73,10 @@ std::vector<Position> Block::GetCellPositionsAfterMove(int rows, int columns) co
     }
     return moveTiles;
 }
+void Block::Rotate() {
+    rotationState ++;
+    if (rotationState ==(int) cells.size())
+    {
+        rotationState =0;
+    }
+}

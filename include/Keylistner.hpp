@@ -2,15 +2,15 @@
 #ifndef EKSAMEN_2023_KEYLISTNER_HPP
 #define EKSAMEN_2023_KEYLISTNER_HPP
 
-#include "game.hpp"
+#include "../include/game.hpp"
 
 class MyKeyListener : public KeyListener {
 public:
-    MyKeyListener(Game &game) : game(game) {}
+    explicit MyKeyListener(Game &game) : game(game) {}
 
     void onKeyPressed(KeyEvent evt) override {
         if (evt.key == threepp::Key::W) {
-            game.moveCurrentBlock(-1, 0); // Example: Move up by decreasing row
+            game.RotateBlock();
         } else if (evt.key == threepp::Key::S) {
             game.moveCurrentBlock(1, 0);  // Example: Move down by increasing row
         } else if (evt.key == threepp::Key::D) {

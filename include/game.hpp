@@ -15,8 +15,8 @@ public:
     void Update(threepp::Scene& scene);
     void Draw(threepp::Scene& scene);
     void moveCurrentBlock(int rows, int columns);
+    void RotateBlock();
     bool IsBlockOutside(const Block& block, int rows, int columns);
-
     Grid grid;
 
 private:
