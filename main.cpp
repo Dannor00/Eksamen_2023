@@ -1,55 +1,71 @@
-#include "threepp/extras/imgui/ImguiContext.hpp"
 #include "threepp/threepp.hpp"
 #include "thread"
-#include "Tetrominos/Block/blocks/blocks.cpp"
-#include "grid.h"
+#include "include/game.hpp"
+#include "include/Keylistner.hpp"
+#include "include/CalculateTime.hpp"
 
 using namespace threepp;
 
 
 int main() {
-
+    // Create a canvas for rendering
     Canvas canvas("Tetris", {{"aa", 4}});
-    canvas.setSize({300, 600});
+    canvas.setSize({1000, 900});
 
+    // Initialize the renderer
     GLRenderer renderer(canvas.size());
     renderer.setClearColor(Color::blue);
-    auto camera = PerspectiveCamera::create(75, canvas.aspect(),0.1f, 1000);
+
+    // Create a perspective camera
+    auto camera = PerspectiveCamera::create(75, canvas.aspect(), 0.1f, 1000);
     camera->position.set(0, 0, 500);
 
+    // Create a 3D scene
     auto scene = Scene::create();
-    OrbitControls controls(*camera, canvas);
 
-    Grid grid = Grid();
-    grid.Print();
+    // Initialize the game
+    Game game = Game();
 
-    TBlock block = TBlock();
-    block.Draw(scene.get());
+    // Create an instance of TimeUtils
+    TimeUtils timeUtils;
 
-
-    /// Denne delen av koden er modifisert av chatgpt for å sette maksimum fps til 60
+    // Set the target frame time for 60 fps
     const double targetFrameTime = 1.0 / 60.0; // Target time for 60 fps (in seconds)
     Clock clock;
+
+    MyKeyListener kl{game};
+    canvas.addKeyListener(&kl);
 
     double previousTime = clock.getElapsedTime();
     double lag = 0.0;
 
+    // Start the rendering loop
     canvas.animate([&] {
         double currentTime = clock.getElapsedTime();
         double elapsed = currentTime - previousTime;
         previousTime = currentTime;
         lag += elapsed;
 
+        // Process game logic in a separate update function
         while (lag >= targetFrameTime) {
             lag -= targetFrameTime;
+            float deltaTime = timeUtils.calculateDeltaTime();  // Use the instance
+            // Update the game state
+            game.Update(*scene, deltaTime);
+
+            game.Draw(*scene);
         }
-        grid.Draw(scene.get());
 
-
+        // Render the scene
         renderer.render(*scene, *camera);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000/60));
+        // Sleep to control the frame rate
+        auto frameRenderTime = clock.getElapsedTime() - currentTime;
+        auto sleepDuration = std::chrono::milliseconds(static_cast<int>((targetFrameTime - frameRenderTime) * 1000));
+        std::this_thread::sleep_for(sleepDuration);
 
-        /// til hær
+        // Continue rendering loop
     });
+
+    return 0;
 }

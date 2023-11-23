@@ -1,8 +1,5 @@
-//
-// Created by Danie on 24.10.2023.
-//
-
 #pragma once
+
 #include "threepp/threepp.hpp"
 #include <vector>
 
