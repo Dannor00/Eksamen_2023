@@ -23,8 +23,19 @@ Block Game::GetRandomBlock() {
 std::vector<Block> Game::GetAllBlocks() {
     return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 }
+void Game::Update(Scene &scene, float deltaTime) {
+    // Automatic downward movement based on elapsed time
+    elapsedSinceLastFall += deltaTime;
 
-void Game::Update(threepp::Scene &scene) {
+    // Check if it's time to move the block down
+    if (elapsedSinceLastFall >= blockFallInterval) {
+        elapsedSinceLastFall = 0.0f;
+
+        // Attempt to move the block down
+        if (!IsBlockOutside(currentBlock, 1, 0) && !IsCollision(currentBlock, 1, 0)) {
+            currentBlock.Move(1, 0);
+        }
+    }
     if (!IsBlockOutside(currentBlock, -1, 0) && !IsCollision(currentBlock, -1, 0)) {
         currentBlock.Move(-1, 0);
     }
@@ -41,8 +52,10 @@ void Game::Update(threepp::Scene &scene) {
         currentBlock.Move(1, 0);
     }
 
+    // Draw the game scene
     currentBlock.Draw(scene);
 }
+
 
 void Game::Draw(threepp::Scene &scene) {
     grid.Draw(scene);

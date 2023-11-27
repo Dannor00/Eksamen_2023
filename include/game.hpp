@@ -12,7 +12,7 @@ public:
     Game();
     Block GetRandomBlock();
     static std::vector<Block> GetAllBlocks();
-    void Update(threepp::Scene& scene);
+    void Update(Scene &scene, float d);
     void Draw(threepp::Scene& scene);
     void moveCurrentBlock(int rows, int columns);
     void RotateBlock();
@@ -25,6 +25,8 @@ private:
     Block nextBlock;
     std::random_device rd;
     std::mt19937 gen;
+    const float blockFallInterval = 1.0f;
+    float elapsedSinceLastFall = 0.0f;
 
     bool IsCollision(const Block &block, int rows, int columns);
 };
