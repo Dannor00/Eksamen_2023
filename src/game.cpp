@@ -61,7 +61,7 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
     }
 
     // Draw the game scene
-    std::cout << "Drawing the game scene." << std::endl;
+    //std::cout << "Drawing the game scene." << std::endl;
     currentBlock.Draw(scene);
 }
 

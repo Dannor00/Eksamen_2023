@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../include/Block.hpp"
 #include "threepp/threepp.hpp"
 
@@ -91,8 +92,8 @@ void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) {
 
     std::vector<Position> tiles = GetCellPositions();
     for (const Position &item : tiles) {
-        float x = centerX + (item.column * cellSize) + position.column * cellSize;
-        float y = centerY - (item.row * cellSize) - position.row * cellSize;
+        float x = centerX + (item.column ) + position.column * cellSize;
+        float y = centerY - (item.row ) - position.row * cellSize;
         float z = 0;
 
         float width = cellSize - 1;
@@ -113,3 +114,4 @@ void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) {
         scene.add(box);
     }
 }
+
