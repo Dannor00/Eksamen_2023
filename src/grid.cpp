@@ -58,3 +58,50 @@ void Grid::Draw(threepp::Scene &scene) {
     }
 ;}
 
+bool Grid::IsRowFull(int row) {
+    for(int column = 0; column < numCols; column++)
+    {
+        if(grid[row][column] == 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void Grid::ClearRow(int row) {
+    for(int column = 0; column < numCols; column++)
+    {
+        std::cout << "Clearing row " << row << ", column " << column << std::endl;
+        grid[row][column] = 0;
+    }
+}
+
+
+void Grid::MoveRowDown(int row, int NumRows) {
+    for (int r = row; r < numRows - 1; r++) {
+        for (int column = 0; column < numCols; column++) {
+            grid[r + 1][column] = grid[r][column];
+            grid[r][column] = 0;
+        }
+    }
+}
+
+
+int Grid::ClearFullRows() {
+    int complete = 0;
+    for (int row = numRows-1; row>=0; row--)
+    {
+        if(IsRowFull(row))
+        {
+            ClearRow(row);
+            complete++;
+        }
+        else if (complete >0)
+        {
+            MoveRowDown(row, complete);
+        }
+    }
+    return complete;
+}
+

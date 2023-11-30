@@ -17,6 +17,7 @@ public:
     void Draw(threepp::Scene &scene);
     void moveCurrentBlock(int rows, int columns);
     void RotateBlock();
+    int CleardRows;
 
 
 

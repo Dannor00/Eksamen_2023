@@ -131,7 +131,6 @@ void Game::LockBlock(threepp::Scene &scene) {
     // Get the current position of the block
     std::vector<Position> blockPositions = currentBlock.GetCellPositions();
 
-
     // Lock the block in place and add it to the list of locked blocks
     for (const auto &pos : blockPositions) {
         int lockedRow = pos.row;
@@ -145,17 +144,34 @@ void Game::LockBlock(threepp::Scene &scene) {
         lockedBlocks.push_back(lockedBlock);
     }
 
-
     // Generate a new block
     currentBlock = GetRandomBlock();
+
+    // Clear full rows in the grid
+    int clearedRows = grid.ClearFullRows();
+
+    // Remove cleared rows from lockedBlocks
+    lockedBlocks.erase(std::remove_if(lockedBlocks.begin(), lockedBlocks.end(),
+                                      [clearedRows](const LockedBlock& lockedBlock) {
+                                          return lockedBlock.position.row < clearedRows;
+                                      }), lockedBlocks.end());
+
+    // Update the positions of remaining locked blocks
+    for (auto& lockedBlock : lockedBlocks) {
+        if (lockedBlock.position.row >= clearedRows) {
+            lockedBlock.position.row -= clearedRows;
+        }
+    }
+
     RedrawLockedBlocks(scene);
 }
+
 
 // Function to redraw the locked blocks
 void Game::RedrawLockedBlocks(threepp::Scene &scene) {
     for (const auto &lockedBlock : lockedBlocks) {
-        // Get the correct block based on the locked block's ID
-        Block lockedBlockType;
+        Block lockedBlockType; // Initialize the correct block type based on blockId
+
         switch (lockedBlock.blockId) {
             case 1:
                 lockedBlockType = LBlock();
