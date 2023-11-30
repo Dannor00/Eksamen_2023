@@ -24,7 +24,7 @@ Block Game::GetRandomBlock() {
 std::vector<Block> Game::GetAllBlocks() {
     return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 }
-void Game::Update(Scene &scene, float deltaTime) {
+void Game::Update(threepp::Scene &scene, float deltaTime) {
     // Automatic downward movement based on elapsed time
     elapsedSinceLastFall += deltaTime;
 
@@ -37,7 +37,7 @@ void Game::Update(Scene &scene, float deltaTime) {
         } else {
             // Block cannot move down anymore, lock it in place
             std::cout << "Attempting to lock the block." << std::endl;
-            LockBlock();
+            LockBlock(scene);
 
             // Reset the elapsed time to avoid continuous locking
             elapsedSinceLastFall = 0.0f;
@@ -127,15 +127,16 @@ void Game::moveCurrentBlock(int rows, int columns) {
 void Game::RotateBlock() {
     currentBlock.Rotate();
 }
-void Game::LockBlock() {
+void Game::LockBlock(threepp::Scene &scene) {
     // Get the current position of the block
     std::vector<Position> blockPositions = currentBlock.GetCellPositions();
+
 
     // Lock the block in place and add it to the list of locked blocks
     for (const auto &pos : blockPositions) {
         int lockedRow = pos.row;
         int lockedColumn = pos.column;
-        grid.grid[lockedRow][lockedColumn] = currentBlock.id;  // Assuming id represents the block's unique identifier
+        grid.grid[lockedRow][lockedColumn] = currentBlock.id;
 
         // Create a LockedBlock structure and add it to the list
         LockedBlock lockedBlock(Position(0, 0));
@@ -144,17 +145,50 @@ void Game::LockBlock() {
         lockedBlocks.push_back(lockedBlock);
     }
 
+
     // Generate a new block
     currentBlock = GetRandomBlock();
+    RedrawLockedBlocks(scene);
 }
 
 // Function to redraw the locked blocks
-void Game::RedrawLockedBlocks() {
+void Game::RedrawLockedBlocks(threepp::Scene &scene) {
     for (const auto &lockedBlock : lockedBlocks) {
-        grid.grid[lockedBlock.position.row][lockedBlock.position.column] = lockedBlock.blockId;
-        // You may need additional code here to redraw the block visually in your game.
+        // Get the correct block based on the locked block's ID
+        Block lockedBlockType;
+        switch (lockedBlock.blockId) {
+            case 1:
+                lockedBlockType = LBlock();
+                break;
+            case 2:
+                lockedBlockType = JBlock();
+                break;
+            case 3:
+                lockedBlockType = IBlock();
+                break;
+            case 4:
+                lockedBlockType = OBlock();
+                break;
+            case 5:
+                lockedBlockType = SBlock();
+                break;
+            case 6:
+                lockedBlockType = TBlock();
+                break;
+            case 7:
+                lockedBlockType = ZBlock();
+                break;
+            default:
+                // Handle the case for unknown block ID
+                break;
+        }
+
+        // Draw the block at the specified position
+        lockedBlockType.DrawAtPosition(scene, lockedBlock.position);
     }
 }
+
+
 
 Game::LockedBlock::LockedBlock(Position position) : position(position) {
 

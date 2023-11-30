@@ -20,5 +20,4 @@ private:
 };
 
 
-
 #endif //EKSAMEN_2023_CALCULATETIME_HPP

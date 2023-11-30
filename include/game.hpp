@@ -19,7 +19,11 @@ public:
     void RotateBlock();
 
 
+
+
     Grid grid;
+
+    void RedrawLockedBlocks(threepp::Scene &scene);
 
 private:
     struct LockedBlock {
@@ -38,9 +42,12 @@ private:
     const float blockFallInterval = 1.0f;
     float elapsedSinceLastFall = 0.0f;
 
-    void LockBlock();           // Added
-    void RedrawLockedBlocks();  // Added
+
+
     bool IsCollision(const Block &block, int rows, int columns);
+
+    void LockBlock(threepp::Scene &scene);
+
 };
 
 #endif // EKSAMEN_2023_GAME_HPP
