@@ -9,6 +9,9 @@ int main() {
     threepp::Canvas canvas("Tetris", {{"aa", 4}});
     canvas.setSize({1000, 900});
 
+    // Initialize the game
+    Game game;
+
     // Initialize the renderer
     threepp::GLRenderer renderer(canvas.size());
     renderer.setClearColor(threepp::Color::blue);
@@ -19,9 +22,6 @@ int main() {
 
     // Create a 3D scene
     auto scene = threepp::Scene::create();
-
-    // Initialize the game
-    Game game = Game();
 
     // Set the target frame time for 60 fps
     const double targetFrameTime = 1.0 / 60.0; // Target time for 60 fps (in seconds)
@@ -56,8 +56,11 @@ int main() {
             game.Draw(*scene);
         }
 
+        // Redraw locked blocks every frame
+        game.RedrawLockedBlocks(*scene);
+
         // Render the scene
-        renderer.render(*scene,*camera);
+        renderer.render(*scene, *camera);
 
         // Sleep to control the frame rate
         auto frameRenderTime = clock.getElapsedTime() - currentTime;
@@ -67,4 +70,3 @@ int main() {
 
     return 0;
 }
-

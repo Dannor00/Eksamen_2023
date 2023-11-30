@@ -18,8 +18,7 @@ public:
     std::vector<Position> GetCellPositions();
     std::vector<Position> GetCellPositionsAfterMove(int rows, int columns) const;
     bool IsBlockOutside(const Block& block, int rows, int columns);
-
-
+    void DrawAtPosition(threepp::Scene &scene, const Position &position);
     int rowOffset;
     int columnOffset;
 

@@ -7,7 +7,9 @@ public:
     Grid();
 
     void initialize();
+
     void Print();
+
     void Draw(threepp::Scene &scene);
 
 
