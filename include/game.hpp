@@ -31,6 +31,11 @@ private:
 
         int blockId;
         Position position;
+
+        // Getter function for the position
+        Position getPosition() const {
+            return position;
+        }
     };
     bool IsBlockOutside(const Block &block, int rows, int columns);
     std::vector<Block> blocks;
