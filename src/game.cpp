@@ -169,41 +169,21 @@ void Game::LockBlock(threepp::Scene &scene) {
 
 // Function to redraw the locked blocks
 void Game::RedrawLockedBlocks(threepp::Scene &scene) {
-    for (const auto &lockedBlock : lockedBlocks) {
-        Block lockedBlockType; // Initialize the correct block type based on blockId
+    // Define an array of Block types, where the index corresponds to the blockId
+    std::vector<Block> blockTypes = {LBlock(), JBlock(), IBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 
-        switch (lockedBlock.blockId) {
-            case 1:
-                lockedBlockType = LBlock();
-                break;
-            case 2:
-                lockedBlockType = JBlock();
-                break;
-            case 3:
-                lockedBlockType = IBlock();
-                break;
-            case 4:
-                lockedBlockType = OBlock();
-                break;
-            case 5:
-                lockedBlockType = SBlock();
-                break;
-            case 6:
-                lockedBlockType = TBlock();
-                break;
-            case 7:
-                lockedBlockType = ZBlock();
-                break;
-            default:
-                // Handle the case for unknown block ID
-                break;
+    for (int row = 0; row < grid.numRows; ++row) {
+        for (int col = 0; col < grid.numCols; ++col) {
+            int blockId = grid.grid[row][col];
+
+            if (blockId != 0 && blockId <= blockTypes.size()) {
+                // Draw the block at the specified position
+                Position blockPosition(row, col);
+                blockTypes[blockId - 1].DrawAtPosition(scene, blockPosition);
+            }
         }
-
-        // Draw the block at the specified position
-        lockedBlockType.DrawAtPosition(scene, lockedBlock.position);
     }
 }
-
 
 
 Game::LockedBlock::LockedBlock(Position position) : position(position) {
