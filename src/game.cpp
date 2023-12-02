@@ -32,7 +32,7 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
         elapsedSinceLastFall = 0.0f;
 
         // Attempt to move the block down
-        if (!IsBlockOutside(currentBlock, 1, 0) && !IsCollision(currentBlock, 1, 0)) {
+        if (!IsCollision(currentBlock, 1, 0)) {
             currentBlock.Move(1, 0);
         } else {
             // Block cannot move down anymore, lock it in place
@@ -44,19 +44,19 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
         }
     }
 
-    if (!IsBlockOutside(currentBlock, -1, 0) && !IsCollision(currentBlock, -1, 0)) {
+    if ( !IsCollision(currentBlock, -1, 0)) {
         currentBlock.Move(-1, 0);
     }
 
-    if (!IsBlockOutside(currentBlock, 0, -1) && !IsCollision(currentBlock, 0, -1)) {
+    if (  !IsCollision(currentBlock, 0, -1)) {
         currentBlock.Move(0, -1);
     }
 
-    if (!IsBlockOutside(currentBlock, 0, 1) && !IsCollision(currentBlock, 0, 1)) {
+    if (  !IsCollision(currentBlock, 0, 1)) {
         currentBlock.Move(0, 1);
     }
 
-    if (!IsBlockOutside(currentBlock, 1, 0) && !IsCollision(currentBlock, 1, 0)) {
+    if (  !IsCollision(currentBlock, 1, 0)) {
         currentBlock.Move(1, 0);
     }
 
@@ -93,32 +93,6 @@ bool Game::IsCollision(const Block &block, int rows, int columns) {
     return false; // Block is within the grid
 }
 
-bool Game::IsBlockOutside(const Block& block, int rows, int columns) {
-    std::vector<Position> newPositions = block.GetCellPositionsAfterMove(rows, columns);
-
-    // Check if any of the new positions are outside the grid boundaries
-    for (const auto& newPos : newPositions) {
-        // Allow blocks to reach the topmost position of the grid
-        if (newPos.row < 0) {
-            continue; // Allow block to move to the top
-        }
-
-        // Allow blocks to reach the leftmost position of the grid
-        if (newPos.column < 0) {
-            continue; // Allow block to move to the left
-        }
-
-        if (newPos.row >= grid.numRows || newPos.column >= grid.numCols) {
-            return true; // Collision with right or bottom boundary
-        }
-
-        if (grid.grid[newPos.row][newPos.column] != 0) {
-            return true; // Collision with existing occupied cell in the grid
-        }
-    }
-
-    return false; // Block is within the grid
-}
 
 void Game::moveCurrentBlock(int rows, int columns) {
     currentBlock.Move(rows, columns);
