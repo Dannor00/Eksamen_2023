@@ -150,6 +150,9 @@ void Game::LockBlock(threepp::Scene &scene) {
     // Clear full rows in the grid
     int clearedRows = grid.ClearFullRows();
 
+    std::cout << "Grid after clearing " << clearedRows << " row(s):" << std::endl;
+    grid.Print();
+
     // Remove cleared rows from lockedBlocks
     lockedBlocks.erase(std::remove_if(lockedBlocks.begin(), lockedBlocks.end(),
                                       [clearedRows](const LockedBlock& lockedBlock) {

@@ -77,15 +77,15 @@ void Grid::ClearRow(int row) {
     }
 }
 
-
 void Grid::MoveRowDown(int row, int NumRows) {
-    for (int r = row; r < numRows - 1; r++) {
-        for (int column = 0; column < numCols; column++) {
-            grid[r + 1][column] = grid[r][column];
-            grid[r][column] = 0;
-        }
+    for (int column = 0; column < numCols; column++) {
+        grid[row + NumRows][column] = grid[row][column];
+        grid[row][column] = 0;
     }
 }
+
+
+
 
 
 int Grid::ClearFullRows() {
