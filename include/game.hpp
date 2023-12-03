@@ -1,9 +1,9 @@
 #ifndef EKSAMEN_2023_GAME_HPP
 #define EKSAMEN_2023_GAME_HPP
 
-#pragma once
-
 #include <random>
+#include <vector>
+#include <iostream>
 #include "grid.hpp"
 #include "../src/blocks.cpp"
 #include "threepp/threepp.hpp"
@@ -18,9 +18,6 @@ public:
     void moveCurrentBlock(int rows, int columns);
     void RotateBlock();
     int CleardRows;
-
-
-
 
     Grid grid;
 
@@ -38,22 +35,22 @@ private:
             return position;
         }
     };
+
     bool IsBlockOutside(const Block &block, int rows, int columns);
     std::vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;
-    std::vector<LockedBlock> lockedBlocks;  // Added to store locked blocks
+    std::vector<LockedBlock> lockedBlocks;
     std::random_device rd;
     std::mt19937 gen;
     const float blockFallInterval = 1.0f;
     float elapsedSinceLastFall = 0.0f;
 
-
-
     bool IsCollision(const Block &block, int rows, int columns);
-
     void LockBlock(threepp::Scene &scene);
 
+    bool IsGameOver();
+    bool gameOver = false;
 };
 
 #endif // EKSAMEN_2023_GAME_HPP
