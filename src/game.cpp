@@ -183,3 +183,10 @@ bool Game::IsBlockOutside(const Block &block, int rows, int columns) {
     }
     return false;
 }
+
+void Game::Reset() {
+    grid.initialize();
+    blocks= GetAllBlocks();
+    currentBlock =GetRandomBlock();
+    nextBlock = GetRandomBlock();
+}

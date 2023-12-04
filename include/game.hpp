@@ -22,7 +22,8 @@ public:
     Grid grid;
 
     void RedrawLockedBlocks(threepp::Scene &scene);
-
+    void Reset();
+    bool gameOver = false;
 private:
     struct LockedBlock {
         LockedBlock(Position position);
@@ -48,9 +49,8 @@ private:
 
     bool IsCollision(const Block &block, int rows, int columns);
     void LockBlock(threepp::Scene &scene);
-
     bool IsGameOver();
-    bool gameOver = false;
+
 };
 
 #endif // EKSAMEN_2023_GAME_HPP

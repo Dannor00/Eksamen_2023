@@ -9,7 +9,12 @@ public:
     explicit MyKeyListener(Game &game) : game(game) {}
 
     void onKeyPressed(KeyEvent evt) override {
-        if (evt.key == threepp::Key::W) {
+        if (game.gameOver && evt.key == threepp::Key::R)
+        {
+            game.gameOver = false;
+            game.Reset();
+        }
+        else if (evt.key == threepp::Key::W) {
             game.RotateBlock();
         } else if (evt.key == threepp::Key::S) {
             game.moveCurrentBlock(1, 0);  // Example: Move down by increasing row
