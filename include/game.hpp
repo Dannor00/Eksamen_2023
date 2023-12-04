@@ -17,7 +17,9 @@ public:
     void Draw(threepp::Scene &scene);
     void moveCurrentBlock(int rows, int columns);
     void RotateBlock();
+    void UpdateScore(int linesCleard, int moveDownPoints);
     int CleardRows;
+    int score;
 
     Grid grid;
 
@@ -49,6 +51,7 @@ private:
 
     bool IsCollision(const Block &block, int rows, int columns);
     void LockBlock(threepp::Scene &scene);
+
     bool IsGameOver();
 
 };

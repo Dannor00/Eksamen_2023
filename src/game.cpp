@@ -5,6 +5,7 @@ Game::Game() : grid(Grid()), rd(), gen(rd()) {
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
+    score= 0;
 }
 
 Block Game::GetRandomBlock() {
@@ -44,7 +45,6 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
 
             // Check for game over condition after locking the block
             if (IsGameOver()) {
-                std::cout << "Game Over!" << std::endl;
                 gameOver = true;
                 return;
             }
@@ -131,6 +131,7 @@ void Game::LockBlock(threepp::Scene &scene) {
     currentBlock = GetRandomBlock();
 
     int clearedRows = grid.ClearFullRows();
+    UpdateScore(clearedRows, 0);
 
     std::cout << "Grid after clearing " << clearedRows << " row(s):" << std::endl;
     grid.Print();
@@ -189,4 +190,22 @@ void Game::Reset() {
     blocks= GetAllBlocks();
     currentBlock =GetRandomBlock();
     nextBlock = GetRandomBlock();
+    score = 0;
+}
+
+void Game::UpdateScore(int linesCleard, int moveDownPoints) {
+    switch (linesCleard) {
+        case 1:
+            score +=100;
+            break;
+        case 2:
+            score +=300;
+            break;
+        case 3:
+            score +=500;
+            break;
+        default:
+            break;
+    }
+    score += moveDownPoints;
 }
