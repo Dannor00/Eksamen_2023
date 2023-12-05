@@ -13,7 +13,7 @@ int main() {
 
     // Create the score handle once
     auto &scoreHandle = textRenderer.createHandle();
-    scoreHandle.setPosition(canvas.size().width - 250, 0);
+    scoreHandle.setPosition(canvas.size().width - 280, 0);
     scoreHandle.color = Color::white;
     scoreHandle.scale = 3;
 

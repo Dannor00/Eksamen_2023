@@ -77,7 +77,7 @@ void Game::Draw(threepp::Scene &scene) {
     }
 
     grid.Draw(scene);
-    currentBlock.Draw(scene, 0, 0); 
+    currentBlock.Draw(scene, 0, 0);
     nextBlock.Draw(scene, 320, -190);
 }
 
