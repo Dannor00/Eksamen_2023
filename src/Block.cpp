@@ -2,7 +2,6 @@
 #include "../include/Block.hpp"
 #include "threepp/threepp.hpp"
 
-
 Block::Block() {
     cellSize = 30;
     rotationState = 0;
@@ -11,7 +10,7 @@ Block::Block() {
     columnOffset = 0;
 }
 
-void Block::Draw(threepp::Scene &scene) {
+void Block::Draw(threepp::Scene &scene, int offsetX, int offsetY) {
     float blockWidth = 10 * cellSize;
     float blockHeight = 20 * cellSize;
 
@@ -22,8 +21,8 @@ void Block::Draw(threepp::Scene &scene) {
 
     std::vector<Position> tiles = GetCellPositions();
     for (const Position &item : tiles) {
-        float x = centerX + (item.column * cellSize);
-        float y = centerY - (item.row * cellSize);
+        float x = centerX + (item.column * cellSize)+offsetX;
+        float y = centerY - (item.row * cellSize)+ offsetY;
         float z = 0;
 
         float width = cellSize - 1;
@@ -51,7 +50,7 @@ void Block::Move(int rows, int columns) {
 
     // Optional: Add boundary checks to restrict movement
     rowOffset = std::max(-1, rowOffset);  // Ensure the block stays within the top boundary
-     columnOffset = std::max(-1, columnOffset);  // Ensure the block stays within the left boundary
+    columnOffset = std::max(-1, columnOffset);  // Ensure the block stays within the left boundary
 }
 
 std::vector<Position> Block::GetCellPositions() {
@@ -64,7 +63,6 @@ std::vector<Position> Block::GetCellPositions() {
     return moveTiles;
 }
 
-
 std::vector<Position> Block::GetCellPositionsAfterMove(int rows, int columns) const {
     std::vector<Position> tiles = cells.at(rotationState);
     std::vector<Position> moveTiles;
@@ -74,6 +72,7 @@ std::vector<Position> Block::GetCellPositionsAfterMove(int rows, int columns) co
     }
     return moveTiles;
 }
+
 void Block::Rotate() {
     rotationState ++;
     if (rotationState ==(int) cells.size())
@@ -81,6 +80,7 @@ void Block::Rotate() {
         rotationState =0;
     }
 }
+
 void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) {
     float blockWidth = 10 * cellSize;
     float blockHeight = 20 * cellSize;

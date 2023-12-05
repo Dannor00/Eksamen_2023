@@ -67,9 +67,8 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
         currentBlock.Move(1, 0);
     }
 
-    currentBlock.Draw(scene);
+    currentBlock.Draw(scene, 0, 0);
 }
-
 
 void Game::Draw(threepp::Scene &scene) {
     if (gameOver) {
@@ -78,7 +77,8 @@ void Game::Draw(threepp::Scene &scene) {
     }
 
     grid.Draw(scene);
-    currentBlock.Draw(scene);
+    currentBlock.Draw(scene, 0, 0); 
+    nextBlock.Draw(scene, 320, -190);
 }
 
 bool Game::IsGameOver() {
@@ -128,7 +128,8 @@ void Game::LockBlock(threepp::Scene &scene) {
         lockedBlocks.push_back(lockedBlock);
     }
 
-    currentBlock = GetRandomBlock();
+    currentBlock = nextBlock;
+    nextBlock = GetRandomBlock();
 
     int clearedRows = grid.ClearFullRows();
     UpdateScore(clearedRows, 0);

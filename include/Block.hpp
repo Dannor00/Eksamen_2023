@@ -11,7 +11,7 @@
 class Block {
 public:
     Block();
-    void Draw(threepp::Scene &scene);
+    void Draw(threepp::Scene &scene, int offsetX, int offsetY);
     void Move(int rows, int columns);
     int id;
     std::map<int, std::vector<Position>> cells;
@@ -31,8 +31,6 @@ private:
 
 };
 
-
 #endif //EKSAMEN_2023_BLOCK_HPP
-
 
 
