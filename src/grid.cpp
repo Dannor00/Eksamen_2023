@@ -1,5 +1,6 @@
-#include "iostream"
+#include <iostream>
 #include "../include/grid.hpp"
+#include "threepp/threepp.hpp"
 
 
 Grid::Grid() {
@@ -14,7 +15,7 @@ void Grid::initialize() {
     grid.assign(numRows, std::vector<int>(numCols, 0));
 }
 
-void Grid::Print() {
+void Grid::Print() const {
     for (int row = 0; row < numRows; row++) {
         for (int column = 0; column < numCols; column++) {
             std::cout << grid[row][column] << " ";
@@ -23,7 +24,7 @@ void Grid::Print() {
     }
 }
 
-void Grid::Draw(threepp::Scene &scene) {
+void Grid::Draw(threepp::Scene &scene) const {
     float gridWidth = numCols * cellSize;
     float gridHeight = numRows * cellSize;
 
@@ -41,7 +42,6 @@ void Grid::Draw(threepp::Scene &scene) {
     // Iterate over the grid and create cubes
     for (int row = 0; row < numRows; row++) {
         for (int column = 0; column < numCols; column++) {
-            int cellValue = grid[row][column];
 
             // Create a mesh using the shared geometry and material
             auto cube = threepp::Mesh::create(geometry, material);
@@ -56,13 +56,11 @@ void Grid::Draw(threepp::Scene &scene) {
             scene.add(cube);
         }
     }
-;}
+}
 
-bool Grid::IsRowFull(int row) {
-    for(int column = 0; column < numCols; column++)
-    {
-        if(grid[row][column] == 0)
-        {
+bool Grid::IsRowFull(int row) const {
+    for (int column = 0; column < numCols; column++) {
+        if (grid[row][column] == 0) {
             return false;
         }
     }
@@ -70,38 +68,28 @@ bool Grid::IsRowFull(int row) {
 }
 
 void Grid::ClearRow(int row) {
-    for(int column = 0; column < numCols; column++)
-    {
+    for (int column = 0; column < numCols; column++) {
         std::cout << "Clearing row " << row << ", column " << column << std::endl;
         grid[row][column] = 0;
     }
 }
 
-void Grid::MoveRowDown(int row, int NumRows) {
+void Grid::MoveRowDown(int row, int numRowsToMove) {
     for (int column = 0; column < numCols; column++) {
-        grid[row + NumRows][column] = grid[row][column];
+        grid[row + numRowsToMove][column] = grid[row][column];
         grid[row][column] = 0;
     }
 }
 
-
-
-
-
 int Grid::ClearFullRows() {
     int complete = 0;
-    for (int row = numRows-1; row>=0; row--)
-    {
-        if(IsRowFull(row))
-        {
+    for (int row = numRows - 1; row >= 0; row--) {
+        if (IsRowFull(row)) {
             ClearRow(row);
             complete++;
-        }
-        else if (complete >0)
-        {
+        } else if (complete > 0) {
             MoveRowDown(row, complete);
         }
     }
     return complete;
 }
-

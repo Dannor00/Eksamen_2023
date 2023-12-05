@@ -83,7 +83,7 @@ int main() {
                 GameOverHandle.setText("GAME OVER!");
             }
 
-            if(!game.gameOver){
+            if (!game.gameOver) {
                 GameOverHandle.setText("");
 
             }

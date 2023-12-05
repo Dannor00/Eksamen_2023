@@ -1,6 +1,5 @@
 #ifndef EKSAMEN_2023_BLOCK_HPP
 #define EKSAMEN_2023_BLOCK_HPP
-#pragma once
 
 #include "map"
 #include "vector"
@@ -11,30 +10,46 @@
 class Block {
 public:
     Block();
+
+    ~Block() = default;
+
     void Draw(threepp::Scene &scene, int offsetX, int offsetY);
+
     void Move(int rows, int columns);
-    int id;
-    std::map<int, std::vector<Position>> cells;
-    std::vector<Position> GetCellPositions();
-    std::vector<Position> GetCellPositionsAfterMove(int rows, int columns) const;
-    bool IsBlockOutside(const Block& block, int rows, int columns);
-    void DrawAtPosition(threepp::Scene &scene, const Position &position);
-    int rowOffset;
-    int columnOffset;
 
     void Rotate();
 
-    void
-    CreateWhiteBox(Scene &scene, const Position &position, float customWidth, float customHeight, float customDepth);
+    void DrawAtPosition(threepp::Scene &scene, const Position &position);
 
-private:
+    void CreateWhiteBox(threepp::Scene &scene, const Position &position, float customWidth, float customHeight,
+                        float customDepth) const;
+
+    [[nodiscard]] std::vector<Position> GetCellPositions() const;
+
+    [[nodiscard]] std::vector<Position> GetCellPositionsAfterMove(int rows, int columns) const;
+
     int cellSize;
     int rotationState;
+    int id;
+    int rowOffset;
+    int columnOffset;
     std::vector<Color> colors;
+    std::map<int, std::vector<Position>> cells;
+
+private:
+    static void SetMeshPosition(const std::shared_ptr<threepp::Mesh> &mesh, float x, float y, float z);
+
+    static void AddMeshToScene(threepp::Scene &scene, const std::shared_ptr<threepp::Mesh> &mesh);
+
+    static std::vector<Position> AdjustPositionsWithOffset(const std::vector<Position> &positions, int rowOffset,
+                                                           int columnOffset);
+
+
+    // Constants for block dimensions
+    static const int BLOCK_WIDTH_FACTOR = 10;
+    static const int BLOCK_HEIGHT_FACTOR = 20;
 
 
 };
 
 #endif //EKSAMEN_2023_BLOCK_HPP
-
-

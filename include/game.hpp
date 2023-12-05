@@ -11,35 +11,39 @@
 class Game {
 public:
     Game();
-    Block GetRandomBlock();
-    static std::vector<Block> GetAllBlocks();
-    void Update(threepp::Scene &scene, float deltaTime);
-    void Draw(threepp::Scene &scene);
-    void moveCurrentBlock(int rows, int columns);
-    void RotateBlock();
-    void UpdateScore(int linesCleard, int moveDownPoints);
-    int CleardRows;
-    int score;
 
+    Block GetRandomBlock();
+
+    static std::vector<Block> GetAllBlocks();
+
+    void Update(threepp::Scene &scene, float deltaTime);
+
+    void moveCurrentBlock(int rows, int columns);
+
+    void RotateBlock();
+
+    void UpdateScore(int linesCleared, int moveDownPoints);
+
+    int score;
     Grid grid;
 
     void RedrawLockedBlocks(threepp::Scene &scene);
+
     void Reset();
+
     bool gameOver = false;
+
+    void Draw(Scene &scene);
+
 private:
     struct LockedBlock {
-        LockedBlock(Position position);
+        explicit LockedBlock(Position position);
 
-        int blockId;
         Position position;
-
-        // Getter function for the position
-        Position getPosition() const {
-            return position;
-        }
     };
 
-    bool IsBlockOutside(const Block &block, int rows, int columns);
+    bool IsBlockOutside(const Block &block);
+
     std::vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;
@@ -50,6 +54,7 @@ private:
     float elapsedSinceLastFall = 0.0f;
 
     bool IsCollision(const Block &block, int rows, int columns);
+
     void LockBlock(threepp::Scene &scene);
 
     bool IsGameOver();

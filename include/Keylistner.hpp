@@ -9,16 +9,14 @@ public:
     explicit MyKeyListener(Game &game) : game(game) {}
 
     void onKeyPressed(KeyEvent evt) override {
-        if (game.gameOver && evt.key == threepp::Key::R)
-        {
+        if (game.gameOver && evt.key == threepp::Key::R) {
             game.gameOver = false;
             game.Reset();
-        }
-        else if (evt.key == threepp::Key::W) {
+        } else if (evt.key == threepp::Key::W) {
             game.RotateBlock();
         } else if (evt.key == threepp::Key::S) {
             game.moveCurrentBlock(1, 0);  // Example: Move down by increasing row
-            game.UpdateScore(0,1);
+            game.UpdateScore(0, 1);
         } else if (evt.key == threepp::Key::D) {
             game.moveCurrentBlock(0, 1);  // Example: Move right by increasing column
         } else if (evt.key == threepp::Key::A) {

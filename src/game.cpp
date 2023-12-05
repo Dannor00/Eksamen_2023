@@ -1,11 +1,12 @@
 #include <iostream>
+#include <algorithm>
 #include "../include/game.hpp"
 
 Game::Game() : grid(Grid()), rd(), gen(rd()) {
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
-    score= 0;
+    score = 0;
 }
 
 Block Game::GetRandomBlock() {
@@ -83,13 +84,13 @@ void Game::Draw(threepp::Scene &scene) {
 
 bool Game::IsGameOver() {
     // Check if the current block is outside the top two rows of the grid
-    return IsBlockOutside(currentBlock, 0, 0);
+    return IsBlockOutside(currentBlock);
 }
 
 bool Game::IsCollision(const Block &block, int rows, int columns) {
     std::vector<Position> newPositions = block.GetCellPositionsAfterMove(rows, columns);
 
-    for (const auto &newPos : newPositions) {
+    for (const auto &newPos: newPositions) {
         if (newPos.row < 0) {
             continue;
         }
@@ -117,13 +118,12 @@ void Game::RotateBlock() {
 void Game::LockBlock(threepp::Scene &scene) {
     std::vector<Position> blockPositions = currentBlock.GetCellPositions();
 
-    for (const auto &pos : blockPositions) {
+    for (const auto &pos: blockPositions) {
         int lockedRow = pos.row;
         int lockedColumn = pos.column;
         grid.grid[lockedRow][lockedColumn] = currentBlock.id;
 
         LockedBlock lockedBlock(Position(0, 0));
-        lockedBlock.blockId = currentBlock.id;
         lockedBlock.position = pos;
         lockedBlocks.push_back(lockedBlock);
     }
@@ -142,7 +142,7 @@ void Game::LockBlock(threepp::Scene &scene) {
                                           return lockedBlock.position.row < clearedRows;
                                       }), lockedBlocks.end());
 
-    for (auto &lockedBlock : lockedBlocks) {
+    for (auto &lockedBlock: lockedBlocks) {
         if (lockedBlock.position.row >= clearedRows) {
             lockedBlock.position.row -= clearedRows;
         }
@@ -169,10 +169,10 @@ void Game::RedrawLockedBlocks(threepp::Scene &scene) {
 Game::LockedBlock::LockedBlock(Position position) : position(position) {
 }
 
-bool Game::IsBlockOutside(const Block &block, int rows, int columns) {
-    std::vector<Position> newPositions = block.GetCellPositionsAfterMove(rows, columns);
+bool Game::IsBlockOutside(const Block &block) {
+    std::vector<Position> newPositions = block.GetCellPositionsAfterMove(0, 0);
 
-    for (const auto &newPos : newPositions) {
+    for (const auto &newPos: newPositions) {
         if (newPos.row < 0 || newPos.row >= grid.numRows) {
             return true;
         }
@@ -188,22 +188,22 @@ bool Game::IsBlockOutside(const Block &block, int rows, int columns) {
 
 void Game::Reset() {
     grid.initialize();
-    blocks= GetAllBlocks();
-    currentBlock =GetRandomBlock();
+    blocks = GetAllBlocks();
+    currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
     score = 0;
 }
 
-void Game::UpdateScore(int linesCleard, int moveDownPoints) {
-    switch (linesCleard) {
+void Game::UpdateScore(int linesCleared, int moveDownPoints) {
+    switch (linesCleared) {
         case 1:
-            score +=100;
+            score += 100;
             break;
         case 2:
-            score +=300;
+            score += 300;
             break;
         case 3:
-            score +=500;
+            score += 500;
             break;
         default:
             break;

@@ -12,12 +12,12 @@ add_executable(Tetris
         main.cpp
         src/grid.cpp
         src/Block.cpp
-        src/Position.cpp
         src/colors.cpp
         src/blocks.cpp
         src/game.cpp
         include/Keylistner.hpp
         include/CalculateTime.hpp
+        src/Position.cpp
 
 )
 

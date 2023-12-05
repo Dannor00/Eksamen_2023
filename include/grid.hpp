@@ -1,4 +1,8 @@
-#include "vector"
+#ifndef GRID_HPP
+#define GRID_HPP
+
+#include <iostream>
+#include <vector>
 #include "threepp/threepp.hpp"
 #include "../include/colors.hpp"
 
@@ -8,18 +12,26 @@ public:
 
     void initialize();
 
-    void Print();
+    void Print() const;
 
-    void Draw(threepp::Scene &scene);
+    void Draw(threepp::Scene &scene) const;
 
     int ClearFullRows();
+
     int numRows;
     int numCols;
     std::vector<std::vector<int>> grid;
-private:
-    bool IsRowFull(int row);
-    void ClearRow(int row);
-    void MoveRowDown(int row, int NumRows);
     int cellSize;
 
+private:
+    [[nodiscard]] bool IsRowFull(int row) const;
+
+    void ClearRow(int row);
+
+    void MoveRowDown(int row, int numRows);
+
+
 };
+
+#endif // GRID_HPP
+
