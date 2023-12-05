@@ -50,6 +50,9 @@ int main() {
     double previousTime = clock.getElapsedTime();
     double lag = 0.0;
 
+    // Create an instance of the Block class
+    Block block;
+
     // Start the rendering loop
     canvas.animate([&] {
         double currentTime = clock.getElapsedTime();
@@ -80,6 +83,14 @@ int main() {
 
             // Update the "Score" text handle
             scoreHandle.setText("Score: " + std::to_string(game.score));
+
+
+            // Draw the white box continuously
+            Position whiteBoxPosition = Position(7, 15);
+            float customWidth = 150.0f;  // Replace with your desired width
+            float customHeight = 90.0f; // Replace with your desired height
+            float customDepth = 2.0f;   // Replace with your desired depth
+            block.CreateWhiteBox(*scene, whiteBoxPosition, customWidth, customHeight, customDepth);
 
         }
 

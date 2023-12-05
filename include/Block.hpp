@@ -24,10 +24,14 @@ public:
 
     void Rotate();
 
+    void
+    CreateWhiteBox(Scene &scene, const Position &position, float customWidth, float customHeight, float customDepth);
+
 private:
     int cellSize;
     int rotationState;
     std::vector<Color> colors;
+
 
 };
 

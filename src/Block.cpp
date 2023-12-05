@@ -115,3 +115,29 @@ void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) {
     }
 }
 
+// Add this method to the Block class
+void Block::CreateWhiteBox(threepp::Scene &scene, const Position &position, float customWidth, float customHeight, float customDepth) {
+    float blockWidth = 10 * cellSize;
+    float blockHeight = 20 * cellSize;
+
+    float centerX = -blockWidth / 2.0;
+    float centerY = blockHeight / 2.0;
+
+    float x = centerX + position.column * cellSize;
+    float y = centerY - position.row * cellSize;
+    float z = 0;
+
+    float width = customWidth - 1;    // Adjust the width
+    float height = customHeight - 1;  // Adjust the height
+    float depth = customDepth - 1;    // Adjust the depth
+
+    auto geometry = threepp::BoxGeometry::create(width, height, depth);
+    auto material = threepp::MeshBasicMaterial::create({{"color", 0xFFFFFF}}); // 0xFFFFFF corresponds to white
+    auto whiteBox = threepp::Mesh::create(geometry, material);
+
+    whiteBox->position.x = x;
+    whiteBox->position.y = y;
+    whiteBox->position.z = z;
+
+    scene.add(whiteBox);
+}
