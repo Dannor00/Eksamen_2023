@@ -17,6 +17,11 @@ int main() {
     scoreHandle.color = Color::white;
     scoreHandle.scale = 3;
 
+    auto &GameOverHandle = textRenderer.createHandle();
+    GameOverHandle.setPosition(canvas.size().width - 300, +610);
+    GameOverHandle.color = Color::white;
+    GameOverHandle.scale = 3;
+
     auto &handle2 = textRenderer.createHandle("Next");
     handle2.setPosition(canvas.size().width - 240, +210);
     handle2.color = Color::white;
@@ -75,12 +80,13 @@ int main() {
 
             // Check for game over
             if (game.gameOver) {
-                auto &handle3 = textRenderer.createHandle("GAME OVER!");
-                handle3.setPosition(canvas.size().width - 300, +610);
-                handle3.color = Color::white;
-                handle3.scale = 3;
+                GameOverHandle.setText("GAME OVER!");
             }
 
+            if(!game.gameOver){
+                GameOverHandle.setText("");
+
+            }
             // Update the "Score" text handle
             scoreHandle.setText("Score: " + std::to_string(game.score));
 
@@ -99,6 +105,7 @@ int main() {
 
         renderer.resetState();
         textRenderer.render();
+
 
         // Sleep to control the frame rate
         auto frameRenderTime = clock.getElapsedTime() - currentTime;
