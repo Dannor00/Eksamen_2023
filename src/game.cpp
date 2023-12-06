@@ -144,7 +144,7 @@ void Game::LockBlock(threepp::Scene &scene) {
         int lockedColumn = pos.column;
         grid.grid[lockedRow][lockedColumn] = currentBlock.id;
 
-        LockedBlock lockedBlock(Position(0, 0), Position(0, 0));
+        LockedBlock lockedBlock(Position(0, 0));
         lockedBlock.position = pos;
         lockedBlocks.push_back(lockedBlock);
     }
@@ -175,15 +175,7 @@ void Game::LockBlock(threepp::Scene &scene) {
 void Game::RedrawLockedBlocks(threepp::Scene &scene) {
     std::vector<Block> blockTypes = {LBlock(), JBlock(), IBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 
-    // Create a set to store unique rows that need to be redrawn
-    std::set<int> rowsToRedraw;
-
-    for (const auto &lockedBlock: lockedBlocks) {
-        int row = lockedBlock.position.row;
-        rowsToRedraw.insert(row);
-    }
-
-    for (int row: rowsToRedraw) {
+    for (int row = 0; row < grid.numRows; ++row) {
         for (int col = 0; col < grid.numCols; ++col) {
             int blockId = grid.grid[row][col];
 
@@ -193,6 +185,9 @@ void Game::RedrawLockedBlocks(threepp::Scene &scene) {
             }
         }
     }
+}
+
+Game::LockedBlock::LockedBlock(Position position) : position(position) {
 }
 
 
@@ -238,6 +233,5 @@ void Game::UpdateScore(int linesCleared, int moveDownPoints) {
     score += moveDownPoints;
 }
 
-Game::LockedBlock::LockedBlock(Position position, Position position1) : position(position1) {
 
-}
+

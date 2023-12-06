@@ -66,7 +66,7 @@ bool Grid::IsRowFull(int row) const {
 
 void Grid::ClearRow(int row) {
     for (int &cell: grid[row]) {
-        std::cout << "Clearing row " << row << ", column " << &cell - &grid[row][0] << std::endl;
+        // std::cout << "Clearing row " << row << ", column " << &cell - &grid[row][0] << std::endl;
         cell = 0;
     }
 }

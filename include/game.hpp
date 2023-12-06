@@ -47,7 +47,10 @@ public:
 
 private:
     struct LockedBlock {
-        explicit LockedBlock(Position position, Position position1);
+
+
+        LockedBlock(Position position);
+
         Position position;
     };
 
