@@ -33,7 +33,7 @@ public:
 
     bool gameOver = false;
 
-    void Draw(Scene &scene);
+    void Draw(threepp::Scene &scene);
 
 private:
     struct LockedBlock {

@@ -3,7 +3,6 @@
 #include "threepp/threepp.hpp"
 #include <vector>
 
-using namespace threepp;
 
 extern const threepp::Color grey;
 extern const threepp::Color green;

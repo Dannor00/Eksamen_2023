@@ -9,22 +9,22 @@ int main() {
     threepp::Canvas canvas("Tetris", {{"aa", 4}});
     canvas.setSize({900, 900});
 
-    TextRenderer textRenderer;
+    threepp::TextRenderer textRenderer;
 
     // Create the score handle once
     auto &scoreHandle = textRenderer.createHandle();
     scoreHandle.setPosition(canvas.size().width - 280, 0);
-    scoreHandle.color = Color::white;
+    scoreHandle.color = threepp::Color::white;
     scoreHandle.scale = 3;
 
     auto &GameOverHandle = textRenderer.createHandle();
     GameOverHandle.setPosition(canvas.size().width - 300, +610);
-    GameOverHandle.color = Color::white;
+    GameOverHandle.color = threepp::Color::white;
     GameOverHandle.scale = 3;
 
     auto &handle2 = textRenderer.createHandle("Next");
     handle2.setPosition(canvas.size().width - 240, +210);
-    handle2.color = Color::white;
+    handle2.color = threepp::Color::white;
     handle2.scale = 3;
 
     // Initialize the game
