@@ -34,13 +34,20 @@ public:
 
     void Draw(threepp::Scene &scene);
 
+    std::vector<Block *> dirtyBlocks;
+
+    // Helper function to mark a block as dirty
+    void Game::markBlockDirty(Block *block) {
+        dirtyBlocks.push_back(block);
+    }
+
     static std::vector<Block> GetAllBlocks() {
         return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
     }
 
 private:
     struct LockedBlock {
-        explicit LockedBlock(Position position);
+        explicit LockedBlock(Position position, Position position1);
         Position position;
     };
 

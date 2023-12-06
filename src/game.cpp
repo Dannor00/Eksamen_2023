@@ -1,10 +1,13 @@
 #include <algorithm>
+#include <set>
 #include "../include/game.hpp"
 
-Game::Game()
-        : grid(), rd(), gen(rd()), blocks(GetAllBlocks()), currentBlock(GetRandomBlock()), nextBlock(GetRandomBlock()),
-          score(0), gameOver(false) {}
-
+Game::Game() : grid(Grid()), rd(), gen(rd()) {
+    blocks = GetAllBlocks();
+    currentBlock = GetRandomBlock();
+    nextBlock = GetRandomBlock();
+    score = 0;
+}
 
 Block Game::GetRandomBlock() {
     if (blocks.empty()) {
@@ -12,13 +15,13 @@ Block Game::GetRandomBlock() {
     }
 
     std::uniform_int_distribution<int> dist(0, blocks.size() - 1);
-    auto randomIndex = dist(gen);
-
+    int randomIndex = dist(gen);
 
     Block block = blocks[randomIndex];
     blocks.erase(blocks.begin() + randomIndex);
     return block;
 }
+
 
 
 void Game::Update(threepp::Scene &scene, float deltaTime) {
@@ -34,8 +37,9 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
 
         if (!IsCollision(currentBlock, 1, 0)) {
             currentBlock.Move(1, 0);
+            markBlockDirty(&currentBlock);  // Mark current block as dirty when it moves
         } else {
-            // std::cout << "Attempting to lock the block." << std::endl;
+            // Lock the block if it cannot move down
             LockBlock(scene);
             elapsedSinceLastFall = 0.0f;
 
@@ -43,29 +47,36 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
             if (IsGameOver()) {
                 gameOver = true;
                 return;
-
             }
         }
     }
 
+    // Check other movements and rotations
     if (!IsCollision(currentBlock, -1, 0)) {
         currentBlock.Move(-1, 0);
+        markBlockDirty(&currentBlock);  // Mark current block as dirty when it moves
     }
 
     if (!IsCollision(currentBlock, 0, -1)) {
         currentBlock.Move(0, -1);
+        markBlockDirty(&currentBlock);  // Mark current block as dirty when it moves
     }
 
     if (!IsCollision(currentBlock, 0, 1)) {
         currentBlock.Move(0, 1);
+        markBlockDirty(&currentBlock);  // Mark current block as dirty when it moves
     }
 
     if (!IsCollision(currentBlock, 1, 0)) {
         currentBlock.Move(1, 0);
+        markBlockDirty(&currentBlock);  // Mark current block as dirty when it moves
     }
 
-    currentBlock.Draw(scene, 0, 0);
+    // Draw the updated elements
+    Draw(scene);
+    markBlockDirty(&currentBlock);
 }
+
 
 void Game::Draw(threepp::Scene &scene) {
     if (gameOver) {
@@ -73,10 +84,24 @@ void Game::Draw(threepp::Scene &scene) {
         return;
     }
 
+    // Clear the scene before rendering
+    scene.clear();
+
+
+
+    // Redraw only the dirty Tetris blocks
+    for (Block *block: dirtyBlocks) {
+        block->Draw(scene, 0, 0);
+    }
+
+    // Optionally, redraw other static elements that don't change frequently
     grid.Draw(scene);
-    currentBlock.Draw(scene, 0, 0);
     nextBlock.Draw(scene, 300, -300);
+
+    // Clear the list of dirty Tetris blocks for the next frame
+    dirtyBlocks.clear();
 }
+
 
 bool Game::IsGameOver() {
     // Check if the current block is outside the top two rows of the grid
@@ -119,7 +144,7 @@ void Game::LockBlock(threepp::Scene &scene) {
         int lockedColumn = pos.column;
         grid.grid[lockedRow][lockedColumn] = currentBlock.id;
 
-        LockedBlock lockedBlock(Position(0, 0));
+        LockedBlock lockedBlock(Position(0, 0), Position(0, 0));
         lockedBlock.position = pos;
         lockedBlocks.push_back(lockedBlock);
     }
@@ -150,7 +175,15 @@ void Game::LockBlock(threepp::Scene &scene) {
 void Game::RedrawLockedBlocks(threepp::Scene &scene) {
     std::vector<Block> blockTypes = {LBlock(), JBlock(), IBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 
-    for (int row = 0; row < grid.numRows; ++row) {
+    // Create a set to store unique rows that need to be redrawn
+    std::set<int> rowsToRedraw;
+
+    for (const auto &lockedBlock: lockedBlocks) {
+        int row = lockedBlock.position.row;
+        rowsToRedraw.insert(row);
+    }
+
+    for (int row: rowsToRedraw) {
         for (int col = 0; col < grid.numCols; ++col) {
             int blockId = grid.grid[row][col];
 
@@ -162,8 +195,6 @@ void Game::RedrawLockedBlocks(threepp::Scene &scene) {
     }
 }
 
-Game::LockedBlock::LockedBlock(Position position) : position(position) {
-}
 
 bool Game::IsBlockOutside(const Block &block) {
     std::vector<Position> newPositions = block.GetCellPositionsAfterMove(0, 0);
@@ -205,4 +236,8 @@ void Game::UpdateScore(int linesCleared, int moveDownPoints) {
             break;
     }
     score += moveDownPoints;
+}
+
+Game::LockedBlock::LockedBlock(Position position, Position position1) : position(position1) {
+
 }
