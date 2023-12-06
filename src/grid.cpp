@@ -1,12 +1,10 @@
 #include <iostream>
 #include "../include/grid.hpp"
-#include "threepp/threepp.hpp"
 
+const int DEFAULT_CUBE_SIZE = 20;
+const int CUBE_HEIGHT = 1;
 
-Grid::Grid() {
-    numRows = 20;
-    numCols = 10;
-    cellSize = 30;
+Grid::Grid() : numRows(20), numCols(10), cellSize(30) {
     initialize();
 }
 
@@ -16,9 +14,9 @@ void Grid::initialize() {
 }
 
 void Grid::Print() const {
-    for (int row = 0; row < numRows; row++) {
-        for (int column = 0; column < numCols; column++) {
-            std::cout << grid[row][column] << " ";
+    for (const auto &row: grid) {
+        for (int cell: row) {
+            std::cout << cell << " ";
         }
         std::cout << std::endl;
     }
@@ -33,27 +31,26 @@ void Grid::Draw(threepp::Scene &scene) const {
     float centerY = gridHeight / 2.0;
 
     // Use a single geometry and material for all cubes
-    auto geometry = threepp::BoxGeometry::create(20, 20, 1);
+    auto geometry = threepp::BoxGeometry::create(DEFAULT_CUBE_SIZE, DEFAULT_CUBE_SIZE, CUBE_HEIGHT);
     auto material = threepp::MeshBasicMaterial::create();
 
     // Clear the scene at the beginning of each frame
-    scene.clear();
+    // scene.clear();
 
     // Iterate over the grid and create cubes
     for (int row = 0; row < numRows; row++) {
         for (int column = 0; column < numCols; column++) {
-
             // Create a mesh using the shared geometry and material
             auto cube = threepp::Mesh::create(geometry, material);
 
-            // Set cube position
+            // Set cube position using CommonUtils functions
             float x = centerX + column * cellSize;
             float y = centerY - row * cellSize;
             float z = 0;
-            cube->position.set(x, y, z);
+            CommonUtils::SetMeshPosition(cube, x, y, z);
 
-            // Add cube to the scene
-            scene.add(cube);
+            // Add cube to the scene using CommonUtils function
+            CommonUtils::AddMeshToScene(scene, cube);
         }
     }
 }
@@ -68,9 +65,9 @@ bool Grid::IsRowFull(int row) const {
 }
 
 void Grid::ClearRow(int row) {
-    for (int column = 0; column < numCols; column++) {
-        std::cout << "Clearing row " << row << ", column " << column << std::endl;
-        grid[row][column] = 0;
+    for (int &cell: grid[row]) {
+        std::cout << "Clearing row " << row << ", column " << &cell - &grid[row][0] << std::endl;
+        cell = 0;
     }
 }
 

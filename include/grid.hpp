@@ -1,10 +1,7 @@
 #ifndef GRID_HPP
 #define GRID_HPP
 
-#include <iostream>
-#include <vector>
-#include "threepp/threepp.hpp"
-#include "../include/colors.hpp"
+#include "CommonUnits.hpp"
 
 class Grid {
 public:
@@ -18,10 +15,13 @@ public:
 
     int ClearFullRows();
 
+
+    int cellSize;
     int numRows;
     int numCols;
+
     std::vector<std::vector<int>> grid;
-    int cellSize;
+
 
 private:
     [[nodiscard]] bool IsRowFull(int row) const;

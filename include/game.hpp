@@ -14,8 +14,6 @@ public:
 
     Block GetRandomBlock();
 
-    static std::vector<Block> GetAllBlocks();
-
     void Update(threepp::Scene &scene, float deltaTime);
 
     void moveCurrentBlock(int rows, int columns);
@@ -29,16 +27,20 @@ public:
 
     void RedrawLockedBlocks(threepp::Scene &scene);
 
+
     void Reset();
 
     bool gameOver = false;
 
     void Draw(threepp::Scene &scene);
 
+    static std::vector<Block> GetAllBlocks() {
+        return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
+    }
+
 private:
     struct LockedBlock {
         explicit LockedBlock(Position position);
-
         Position position;
     };
 
@@ -53,11 +55,13 @@ private:
     const float blockFallInterval = 1.0f;
     float elapsedSinceLastFall = 0.0f;
 
+
     bool IsCollision(const Block &block, int rows, int columns);
 
     void LockBlock(threepp::Scene &scene);
 
     bool IsGameOver();
+
 
 };
 

@@ -1,11 +1,7 @@
 #ifndef EKSAMEN_2023_BLOCK_HPP
 #define EKSAMEN_2023_BLOCK_HPP
 
-#include "map"
-#include "vector"
-#include "Position.hpp"
-#include "colors.hpp"
-#include "threepp/threepp.hpp"
+#include "CommonUnits.hpp"
 
 class Block {
 public:
@@ -37,9 +33,7 @@ public:
     std::map<int, std::vector<Position>> cells;
 
 private:
-    static void SetMeshPosition(const std::shared_ptr<threepp::Mesh> &mesh, float x, float y, float z);
 
-    static void AddMeshToScene(threepp::Scene &scene, const std::shared_ptr<threepp::Mesh> &mesh);
 
     static std::vector<Position> AdjustPositionsWithOffset(const std::vector<Position> &positions, int rowOffset,
                                                            int columnOffset);

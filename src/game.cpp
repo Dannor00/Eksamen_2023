@@ -1,13 +1,10 @@
-#include <iostream>
 #include <algorithm>
 #include "../include/game.hpp"
 
-Game::Game() : grid(Grid()), rd(), gen(rd()) {
-    blocks = GetAllBlocks();
-    currentBlock = GetRandomBlock();
-    nextBlock = GetRandomBlock();
-    score = 0;
-}
+Game::Game()
+        : grid(), rd(), gen(rd()), blocks(GetAllBlocks()), currentBlock(GetRandomBlock()), nextBlock(GetRandomBlock()),
+          score(0), gameOver(false) {}
+
 
 Block Game::GetRandomBlock() {
     if (blocks.empty()) {
@@ -15,16 +12,14 @@ Block Game::GetRandomBlock() {
     }
 
     std::uniform_int_distribution<int> dist(0, blocks.size() - 1);
-    int randomIndex = dist(gen);
+    auto randomIndex = dist(gen);
+
 
     Block block = blocks[randomIndex];
     blocks.erase(blocks.begin() + randomIndex);
     return block;
 }
 
-std::vector<Block> Game::GetAllBlocks() {
-    return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
-}
 
 void Game::Update(threepp::Scene &scene, float deltaTime) {
     if (gameOver) {
@@ -48,6 +43,7 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
             if (IsGameOver()) {
                 gameOver = true;
                 return;
+
             }
         }
     }
@@ -79,7 +75,7 @@ void Game::Draw(threepp::Scene &scene) {
 
     grid.Draw(scene);
     currentBlock.Draw(scene, 0, 0);
-    nextBlock.Draw(scene, 320, -190);
+    nextBlock.Draw(scene, 300, -300);
 }
 
 bool Game::IsGameOver() {
