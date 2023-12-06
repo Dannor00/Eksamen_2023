@@ -4,11 +4,11 @@
 
 #include "../include/game.hpp"
 
-class MyKeyListener : public KeyListener {
+class MyKeyListener : public threepp::KeyListener {
 public:
     explicit MyKeyListener(Game &game) : game(game) {}
 
-    void onKeyPressed(KeyEvent evt) override {
+    void onKeyPressed(threepp::KeyEvent evt) override {
         if (game.gameOver && evt.key == threepp::Key::R) {
             game.gameOver = false;
             game.Reset();

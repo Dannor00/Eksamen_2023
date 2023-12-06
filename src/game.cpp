@@ -40,7 +40,7 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
         if (!IsCollision(currentBlock, 1, 0)) {
             currentBlock.Move(1, 0);
         } else {
-            std::cout << "Attempting to lock the block." << std::endl;
+            // std::cout << "Attempting to lock the block." << std::endl;
             LockBlock(scene);
             elapsedSinceLastFall = 0.0f;
 
@@ -134,8 +134,8 @@ void Game::LockBlock(threepp::Scene &scene) {
     int clearedRows = grid.ClearFullRows();
     UpdateScore(clearedRows, 0);
 
-    std::cout << "Grid after clearing " << clearedRows << " row(s):" << std::endl;
-    grid.Print();
+    //std::cout << "Grid after clearing " << clearedRows << " row(s):" << std::endl;
+    // grid.Print();
 
     lockedBlocks.erase(std::remove_if(lockedBlocks.begin(), lockedBlocks.end(),
                                       [clearedRows](const LockedBlock &lockedBlock) {

@@ -33,7 +33,7 @@ public:
     int id;
     int rowOffset;
     int columnOffset;
-    std::vector<Color> colors;
+    std::vector<threepp::Color> colors;
     std::map<int, std::vector<Position>> cells;
 
 private:

@@ -2,9 +2,11 @@
 #include "../include/Block.hpp"
 #include "threepp/threepp.hpp"
 
+
 Block::Block()
         : cellSize(30), rotationState(0), id(0), rowOffset(0), columnOffset(0), colors(GetCellColors()) {
 }
+
 
 void Block::Draw(threepp::Scene &scene, int offsetX, int offsetY) {
     const float blockWidth = BLOCK_WIDTH_FACTOR * cellSize;
