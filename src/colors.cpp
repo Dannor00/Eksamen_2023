@@ -1,4 +1,3 @@
-#include "threepp/threepp.hpp"
 #include "../include/colors.hpp"
 
 using namespace threepp;

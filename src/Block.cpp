@@ -1,6 +1,5 @@
 #include <iostream>
 #include "../include/Block.hpp"
-#include "threepp/threepp.hpp"
 
 
 Block::Block()

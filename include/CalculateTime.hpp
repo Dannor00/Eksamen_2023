@@ -1,8 +1,6 @@
-
 #ifndef EKSAMEN_2023_CALCULATETIME_HPP
 #define EKSAMEN_2023_CALCULATETIME_HPP
 
-#include <chrono>
 
 class TimeUtils {
 public:

@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <set>
 #include "../include/game.hpp"
 
 Game::Game() : grid(Grid()), rd(), gen(rd()) {
@@ -21,7 +20,6 @@ Block Game::GetRandomBlock() {
     blocks.erase(blocks.begin() + randomIndex);
     return block;
 }
-
 
 
 void Game::Update(threepp::Scene &scene, float deltaTime) {

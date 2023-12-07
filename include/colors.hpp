@@ -1,7 +1,6 @@
 #pragma once
 
 #include "threepp/threepp.hpp"
-#include <vector>
 
 
 extern const threepp::Color grey;

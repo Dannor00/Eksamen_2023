@@ -2,7 +2,6 @@
 #ifndef EKSAMEN_2023_KEYLISTNER_HPP
 #define EKSAMEN_2023_KEYLISTNER_HPP
 
-#include "../include/game.hpp"
 
 class MyKeyListener : public threepp::KeyListener {
 public:

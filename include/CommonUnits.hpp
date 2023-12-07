@@ -4,10 +4,8 @@
 #define EKSAMEN_2023_COMMONUNITS_HPP
 
 #include "map"
-#include "vector"
 #include "Position.hpp"
 #include "colors.hpp"
-#include "threepp/threepp.hpp"
 
 
 class CommonUtils {

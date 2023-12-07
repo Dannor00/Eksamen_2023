@@ -2,11 +2,9 @@
 #define EKSAMEN_2023_GAME_HPP
 
 #include <random>
-#include <vector>
-#include <iostream>
 #include "grid.hpp"
 #include "../src/blocks.cpp"
-#include "threepp/threepp.hpp"
+
 
 class Game {
 public:
