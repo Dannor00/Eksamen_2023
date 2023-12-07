@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(Eksamen_2023)
+project(Tetris_2023 VERSION 1.0)  # Updated project name
 
 option(TERRIS_BUILD_TESTS "Enable Tetris function testing" ON)
 
@@ -19,22 +19,22 @@ add_executable(Tetris
         include/CalculateTime.hpp
         src/Position.cpp
         include/CommonUnits.hpp
-
 )
 
 target_link_libraries(Tetris
         PRIVATE threepp::threepp
         PRIVATE imgui::imgui
+        PRIVATE TetrisLib
+        PRIVATE TetrisLibInclude
 )
 
 add_subdirectory(src)
+add_subdirectory(include)
 
 # ============================
 # Testing
 # ============================
 if (TERRIS_BUILD_TESTS)
-
-    # Download Catch2 unit-test framework from GitHub
     include(FetchContent)
     FetchContent_Declare(
             Catch2
@@ -45,5 +45,4 @@ if (TERRIS_BUILD_TESTS)
 
     enable_testing()
     add_subdirectory(tests)
-
 endif ()
