@@ -47,11 +47,6 @@ int main() {
 
     Block block;
 
-    // Move this outside the rendering loop
-    Position whiteBoxPosition = Position(10, 14);
-    float customWidth = 200.0f;
-    float customHeight = 100.0f;
-    float customDepth = 1.0f;
 
 
     canvas.animate([&] {

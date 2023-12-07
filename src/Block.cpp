@@ -8,8 +8,6 @@ Block::Block()
 
 
 void Block::Draw(threepp::Scene &scene, int offsetX, int offsetY) {
-    const float blockWidth = BLOCK_WIDTH_FACTOR * cellSize;
-    const float blockHeight = BLOCK_HEIGHT_FACTOR * cellSize;
     const std::pair<float, float> center = CommonUtils::CalculateCenter(BLOCK_WIDTH_FACTOR * cellSize,
                                                                         BLOCK_HEIGHT_FACTOR * cellSize);
     const float centerX = center.first;
@@ -60,8 +58,6 @@ void Block::Rotate() {
 }
 
 void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) {
-    const float blockWidth = BLOCK_WIDTH_FACTOR * cellSize;
-    const float blockHeight = BLOCK_HEIGHT_FACTOR * cellSize;
     const std::pair<float, float> center = CommonUtils::CalculateCenter(BLOCK_WIDTH_FACTOR * cellSize,
                                                                         BLOCK_HEIGHT_FACTOR * cellSize);
     const float centerX = center.first;
@@ -92,8 +88,6 @@ void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) {
 
 void Block::CreateWhiteBox(threepp::Scene &scene, const Position &position, float customWidth, float customHeight,
                            float customDepth) const {
-    const float blockWidth = BLOCK_WIDTH_FACTOR * cellSize;
-    const float blockHeight = BLOCK_HEIGHT_FACTOR * cellSize;
     const std::pair<float, float> center = CommonUtils::CalculateCenter(BLOCK_WIDTH_FACTOR * cellSize,
                                                                         BLOCK_HEIGHT_FACTOR * cellSize);
     const float centerX = center.first;
