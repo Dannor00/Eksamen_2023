@@ -34,8 +34,9 @@ public:
 
     std::vector<Block *> dirtyBlocks;
 
+
     // Helper function to mark a block as dirty
-    void Game::markBlockDirty(Block *block) {
+    void markBlockDirty(Block *block) {
         dirtyBlocks.push_back(block);
     }
 
@@ -47,7 +48,7 @@ private:
     struct LockedBlock {
 
 
-        LockedBlock(Position position);
+        explicit LockedBlock(Position position);
 
         Position position;
     };

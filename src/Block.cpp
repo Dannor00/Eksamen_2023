@@ -57,7 +57,7 @@ void Block::Rotate() {
     rotationState = (rotationState + 1) % static_cast<int>(cells.size());
 }
 
-void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) {
+void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) const {
     const std::pair<float, float> center = CommonUtils::CalculateCenter(BLOCK_WIDTH_FACTOR * cellSize,
                                                                         BLOCK_HEIGHT_FACTOR * cellSize);
     const float centerX = center.first;

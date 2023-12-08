@@ -21,6 +21,10 @@ public:
     int numCols;
 
     std::vector<std::vector<int>> grid;
+    const int DEFAULT_CUBE_SIZE = 20;
+    const int CUBE_HEIGHT = 1;
+    const int EMPTY_CELL = 0;
+
 
 
 private:

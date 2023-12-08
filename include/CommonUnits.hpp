@@ -29,9 +29,5 @@ public:
 
 };
 
-extern int cellSize;
-extern int numRows;
-extern int numCols;
-
 
 #endif //EKSAMEN_2023_COMMONUNITS_HPP

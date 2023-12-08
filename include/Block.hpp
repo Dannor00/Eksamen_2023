@@ -15,7 +15,7 @@ public:
 
     void Rotate();
 
-    void DrawAtPosition(threepp::Scene &scene, const Position &position);
+    void DrawAtPosition(threepp::Scene &scene, const Position &position) const;
 
     void CreateWhiteBox(threepp::Scene &scene, const Position &position, float customWidth, float customHeight,
                         float customDepth) const;
