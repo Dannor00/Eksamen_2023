@@ -1,5 +1,6 @@
 #ifndef EKSAMEN_2023_POSITION_HPP
 #define EKSAMEN_2023_POSITION_HPP
+#pragma once
 
 class Position {
 public:

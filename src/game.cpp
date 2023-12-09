@@ -4,8 +4,9 @@ Game::Game() : grid(Grid()), rd(), gen(rd()), collisionManager(grid) {
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
-    score = 0;
+    score = 0;  // Initialize the score to zero
 }
+
 
 Block Game::GetRandomBlock() {
     if (blocks.empty()) {
@@ -159,9 +160,9 @@ void Game::RedrawLockedBlocks(threepp::Scene &scene) {
     }
 }
 
+
 Game::LockedBlock::LockedBlock(Position position) : position(position) {
 }
-
 
 
 void Game::Reset() {

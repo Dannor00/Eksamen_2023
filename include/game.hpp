@@ -75,6 +75,7 @@ private:
     void MoveBlockDown(threepp::Scene &scene);
 
 
+    void RedrawLockedBlocks(threepp::Scene &scene, const std::unordered_map<int, Block> &blockTypeMap);
 };
 
 #endif // EKSAMEN_2023_GAME_HPP

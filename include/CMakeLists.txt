@@ -12,7 +12,8 @@ set(INCLUDE_FILES
 
 # Add the header files to the library
 add_library(TetrisLibInclude INTERFACE
-        ColisionManager.hpp)
+        ColisionManager.hpp
+)
 
 # Include directories for the library
 target_include_directories(TetrisLibInclude INTERFACE

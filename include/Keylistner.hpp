@@ -15,7 +15,7 @@ public:
             game.RotateBlock();
         } else if (evt.key == threepp::Key::S) {
             game.MoveBlock(1, 0);  // Example: Move down by increasing row
-            game.UpdateScore(0, 0);
+            game.UpdateScore(0, 1);
         } else if (evt.key == threepp::Key::D) {
             game.MoveBlock(0, 1);  // Example: Move right by increasing column
         } else if (evt.key == threepp::Key::A) {
