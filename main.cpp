@@ -1,3 +1,4 @@
+#include <memory>
 #include "thread"
 #include "include/game.hpp"
 #include "include/Keylistner.hpp"
@@ -24,28 +25,27 @@ int main() {
     nextTextHandle.setPosition(canvas->size().width - 300, 300);
     nextTextHandle.color = threepp::Color::white;
     nextTextHandle.scale = 3;
+    auto game = std::make_unique<Game>();
 
-    Game game;
+    auto renderer = std::make_unique<threepp::GLRenderer>(canvas->size());
+    renderer->setClearColor(threepp::Color::blue);
 
-    threepp::GLRenderer renderer(canvas->size());
-    renderer.setClearColor(threepp::Color::blue);
-
-    auto camera = threepp::PerspectiveCamera::create(65, canvas->aspect(), 0.1f, 1000);
+    auto camera = std::make_unique<threepp::PerspectiveCamera>(65, canvas->aspect(), 0.1f, 1000);
     camera->position.set(110, 0, 500);
 
-    auto scene = threepp::Scene::create();
+    auto scene = std::make_unique<threepp::Scene>();
 
     const double targetFrameTime = 1.0 / 60.0;
     threepp::Clock clock;
     TimeUtils timeUtils;
 
-    MyKeyListener kl{game};
+    MyKeyListener kl{*game};
     canvas->addKeyListener(&kl);
 
     double previousTime = clock.getElapsedTime();
     double lag = 0.0;
 
-    Block block;
+    auto block = std::make_unique<Block>();
 
     canvas->animate([&] {
         double currentTime = clock.getElapsedTime();
@@ -57,22 +57,21 @@ int main() {
             lag -= targetFrameTime;
             float deltaTime = timeUtils.calculateDeltaTime();
 
-            game.Update(*scene, deltaTime);
-            game.Draw(*scene);
+            game->Update(*scene, deltaTime);
 
-            if (!game.gameOver) {
-                game.RedrawLockedBlocks(*scene);
+            if (!game->gameOver) {
+                game->RedrawLockedBlocks(*scene);
             }
 
-            if (game.gameOver) {
+            if (game->gameOver) {
                 gameOverTextHandle.setText("GAME OVER!");
             }
 
-            if (!game.gameOver) {
+            if (!game->gameOver) {
                 gameOverTextHandle.setText("");
             }
 
-            scoreTextHandle.setText("Score: " + std::to_string(game.score));
+            scoreTextHandle.setText("Score: " + std::to_string(game->score));
 
             Position whiteBoxPosition = Position(10, 14);
             float customWidth = 200.0f;
@@ -80,19 +79,18 @@ int main() {
             float customDepth = 1.0f;
 
             // Create the white box inside the rendering loop
-            block.CreateWhiteBox(*scene, whiteBoxPosition, customWidth, customHeight, customDepth);
+            block->CreateWhiteBox(*scene, whiteBoxPosition, customWidth, customHeight, customDepth);
         }
 
-        renderer.render(*scene, *camera);
+        renderer->render(*scene, *camera);
 
-        renderer.resetState();
+        renderer->resetState();
         textRenderer.render();
 
         auto frameRenderTime = clock.getElapsedTime() - currentTime;
         auto sleepDuration = std::chrono::milliseconds(static_cast<int>((targetFrameTime - frameRenderTime) * 1000));
         std::this_thread::sleep_for(sleepDuration);
     });
-
 
     return 0;
 }

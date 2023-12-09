@@ -7,7 +7,7 @@ class Grid {
 public:
     Grid();
 
-    void initialize();
+    void Initialize();
 
     void Print() const;
 
@@ -15,18 +15,15 @@ public:
 
     int ClearFullRows();
 
+    [[nodiscard]] int GetNumRows() const;
 
-    int cellSize;
+    [[nodiscard]] int GetNumCols() const;
+
+    [[nodiscard]] int GetCellValue(int row, int col) const;
+
     int numRows;
     int numCols;
-
     std::vector<std::vector<int>> grid;
-    const int DEFAULT_CUBE_SIZE = 20;
-    const int CUBE_HEIGHT = 1;
-    const int EMPTY_CELL = 0;
-
-
-
 private:
     [[nodiscard]] bool IsRowFull(int row) const;
 
@@ -34,8 +31,12 @@ private:
 
     void MoveRowDown(int row, int numRows);
 
+    const int DEFAULT_CUBE_SIZE = 20;
+    const int CUBE_HEIGHT = 1;
+    const int EMPTY_CELL = 0;
+
+    int cellSize;
 
 };
 
 #endif // GRID_HPP
-

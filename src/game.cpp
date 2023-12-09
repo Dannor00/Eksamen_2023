@@ -1,7 +1,6 @@
-#include <algorithm>
 #include "../include/game.hpp"
 
-Game::Game() : grid(Grid()), rd(), gen(rd()) {
+Game::Game() : grid(Grid()), rd(), gen(rd()), collisionManager(grid) {
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
@@ -16,14 +15,12 @@ Block Game::GetRandomBlock() {
     std::uniform_int_distribution<std::size_t> dist(0, blocks.size() - 1);
     std::size_t randomIndex = dist(gen);
 
-
     auto iter = blocks.begin() + static_cast<std::ptrdiff_t>(randomIndex);
     Block block = *iter;
     blocks.erase(iter);
 
     return block;
 }
-
 
 void Game::Update(threepp::Scene &scene, float deltaTime) {
     if (gameOver) {
@@ -33,20 +30,27 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
 
     elapsedSinceLastFall += deltaTime;
 
-    // Function to handle block movement
-    auto moveBlock = [this](int rows, int columns) {
-        if (!IsCollision(currentBlock, rows, columns)) {
-            currentBlock.Move(rows, columns);
-            markBlockDirty(&currentBlock);
-        }
-    };
+    // Attempt to move the block down
+    MoveBlockDown(scene);
 
+    // Check other movements and rotations
+    MoveBlock(-1, 0);
+    MoveBlock(0, -1);
+    MoveBlock(0, 1);
+    MoveBlock(1, 0);
+
+    // Draw the updated elements
+    Draw(scene);
+    MarkBlockDirty(&currentBlock);
+}
+
+void Game::MoveBlockDown(threepp::Scene &scene) {
     if (elapsedSinceLastFall >= blockFallInterval) {
         elapsedSinceLastFall = 0.0f;
 
         // Attempt to move the block down
         if (!IsCollision(currentBlock, 1, 0)) {
-            moveBlock(1, 0);
+            MoveBlock(1, 0);
         } else {
             // Lock the block if it cannot move down
             LockBlock(scene);
@@ -58,17 +62,6 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
             }
         }
     }
-
-    // Check other movements and rotations
-    moveBlock(-1, 0);
-    moveBlock(0, -1);
-    moveBlock(0, 1);
-    moveBlock(1, 0);
-
-    // Draw the updated elements
-    Draw(scene);
-    markBlockDirty(&currentBlock);
-
 }
 
 void Game::Draw(threepp::Scene &scene) {
@@ -93,28 +86,17 @@ void Game::Draw(threepp::Scene &scene) {
     dirtyBlocks.clear();
 }
 
-
 bool Game::IsGameOver() {
     // Check if the current block is outside the top two rows of the grid
-    return IsBlockOutside(currentBlock);
+    return collisionManager.IsBlockOutside(currentBlock);
 }
 
 
-bool Game::IsCollision(const Block &block, int rows, int columns) {
-    const auto &cellPositions = block.GetCellPositionsAfterMove(rows, columns);
-
-    return std::any_of(cellPositions.begin(), cellPositions.end(),
-                       [this](const Position &newPos) {
-                           return newPos.row < 0 || newPos.column < 0 ||
-                                  newPos.row >= grid.numRows || newPos.column >= grid.numCols ||
-                                  grid.grid[newPos.row][newPos.column] != 0;
-                       });
-}
-
-
-
-void Game::moveCurrentBlock(int rows, int columns) {
-    currentBlock.Move(rows, columns);
+void Game::MoveBlock(int rows, int columns) {
+    if (!IsCollision(currentBlock, rows, columns)) {
+        currentBlock.Move(rows, columns);
+        MarkBlockDirty(&currentBlock);
+    }
 }
 
 void Game::RotateBlock() {
@@ -129,8 +111,7 @@ void Game::LockBlock(threepp::Scene &scene) {
         int lockedColumn = pos.column;
         grid.grid[lockedRow][lockedColumn] = currentBlock.id;
 
-        lockedBlocks.emplace_back(Position(0, 0));
-        lockedBlocks.back().position = pos;
+        lockedBlocks.emplace_back(pos);
     }
 
     currentBlock = nextBlock;
@@ -139,58 +120,57 @@ void Game::LockBlock(threepp::Scene &scene) {
     int clearedRows = grid.ClearFullRows();
     UpdateScore(clearedRows, 0);
 
+    // Erase locked blocks that are above cleared rows
     lockedBlocks.erase(std::remove_if(lockedBlocks.begin(), lockedBlocks.end(),
                                       [clearedRows](const LockedBlock &lockedBlock) {
                                           return lockedBlock.position.row < clearedRows;
-                                      }), lockedBlocks.end());
+                                      }),
+                       lockedBlocks.end());
 
+    // Adjust the positions of remaining locked blocks
     for (auto &lockedBlock: lockedBlocks) {
-        if (lockedBlock.position.row >= clearedRows) {
-            lockedBlock.position.row -= clearedRows;
-        }
+        lockedBlock.position.row -= clearedRows;
     }
 
     RedrawLockedBlocks(scene);
 }
 
-
 void Game::RedrawLockedBlocks(threepp::Scene &scene) {
-    const std::vector<Block> blockTypes = {LBlock(), JBlock(), IBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
+    const std::unordered_map<int, Block> blockTypeMap = {
+            {1, LBlock()},
+            {2, JBlock()},
+            {3, IBlock()},
+            {4, OBlock()},
+            {5, SBlock()},
+            {6, TBlock()},
+            {7, ZBlock()}
+    };
 
     for (int row = 0; row < grid.numRows; ++row) {
         for (int col = 0; col < grid.numCols; ++col) {
             int blockId = grid.grid[row][col];
 
-            if (blockId != 0 && static_cast<std::size_t>(blockId - 1) < blockTypes.size()) {
+            auto it = blockTypeMap.find(blockId);
+            if (it != blockTypeMap.end()) {
                 Position blockPosition(row, col);
-                blockTypes[blockId - 1].DrawAtPosition(scene, blockPosition);
+                it->second.DrawAtPosition(scene, blockPosition);
             }
         }
     }
 }
 
-
 Game::LockedBlock::LockedBlock(Position position) : position(position) {
 }
 
 
-bool Game::IsBlockOutside(const Block &block) {
-    const std::vector<Position> newPositions = block.GetCellPositionsAfterMove(0, 0);
-
-    return std::any_of(newPositions.begin(), newPositions.end(), [this](const Position &newPos) {
-        return newPos.row < 0 || newPos.row >= grid.numRows || newPos.column < 0 || newPos.column >= grid.numCols ||
-               grid.grid[newPos.row][newPos.column] != 0;
-    });
-}
 
 void Game::Reset() {
-    grid.initialize();
+    grid.Initialize();
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
     score = 0;
 }
-
 
 void Game::UpdateScore(int linesCleared, int moveDownPoints) {
     constexpr int scoreValues[] = {0, 100, 300, 500};
@@ -202,4 +182,6 @@ void Game::UpdateScore(int linesCleared, int moveDownPoints) {
     score += moveDownPoints;
 }
 
-
+bool Game::IsCollision(const Block &block, int rows, int columns) {
+    return collisionManager.IsCollision(block, rows, columns);
+}

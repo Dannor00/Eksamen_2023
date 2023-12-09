@@ -1,6 +1,5 @@
 #ifndef EKSAMEN_2023_POSITION_HPP
 #define EKSAMEN_2023_POSITION_HPP
-#pragma once
 
 class Position {
 public:
@@ -10,4 +9,4 @@ public:
     int column;
 };
 
-#endif //EKSAMEN_2023_POSITION_HPP
+#endif // EKSAMEN_2023_POSITION_HPP

@@ -4,6 +4,7 @@
 #include <random>
 #include "grid.hpp"
 #include "../src/blocks.cpp"
+#include "ColisionManager.hpp"
 
 
 class Game {
@@ -13,8 +14,6 @@ public:
     Block GetRandomBlock();
 
     void Update(threepp::Scene &scene, float deltaTime);
-
-    void moveCurrentBlock(int rows, int columns);
 
     void RotateBlock();
 
@@ -36,13 +35,15 @@ public:
 
 
     // Helper function to mark a block as dirty
-    void markBlockDirty(Block *block) {
+    void MarkBlockDirty(Block *block) {
         dirtyBlocks.push_back(block);
     }
 
     static std::vector<Block> GetAllBlocks() {
         return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
     }
+
+    void MoveBlock(int i, int i1);
 
 private:
     struct LockedBlock {
@@ -53,8 +54,6 @@ private:
         Position position;
     };
 
-    bool IsBlockOutside(const Block &block);
-
     std::vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;
@@ -63,13 +62,17 @@ private:
     std::mt19937 gen;
     const float blockFallInterval = 1.0f;
     float elapsedSinceLastFall = 0.0f;
-
+    CollisionManager collisionManager;
 
     bool IsCollision(const Block &block, int rows, int columns);
+
 
     void LockBlock(threepp::Scene &scene);
 
     bool IsGameOver();
+
+
+    void MoveBlockDown(threepp::Scene &scene);
 
 
 };

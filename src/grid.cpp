@@ -1,12 +1,11 @@
 #include <iostream>
 #include "../include/grid.hpp"
 
-
 Grid::Grid() : numRows(20), numCols(10), cellSize(30) {
-    initialize();
+    Initialize();
 }
 
-void Grid::initialize() {
+void Grid::Initialize() {
     // Initialize the 2D vector with zeros
     grid.assign(numRows, std::vector<int>(numCols, EMPTY_CELL));
 }
@@ -31,9 +30,6 @@ void Grid::Draw(threepp::Scene &scene) const {
     // Use a single geometry and material for all cubes
     auto geometry = threepp::BoxGeometry::create(DEFAULT_CUBE_SIZE, DEFAULT_CUBE_SIZE, CUBE_HEIGHT);
     auto material = threepp::MeshBasicMaterial::create();
-
-    // Clear the scene at the beginning of each frame
-    // scene.clear();
 
     // Iterate over the grid and create cubes
     for (int row = 0; row < numRows; row++) {
@@ -86,4 +82,16 @@ int Grid::ClearFullRows() {
         }
     }
     return complete;
+}
+
+int Grid::GetNumRows() const {
+    return numRows;  // Assuming numRows is a member of the Grid class
+}
+
+int Grid::GetNumCols() const {
+    return numCols;  // Assuming numCols is a member of the Grid class
+}
+
+int Grid::GetCellValue(int row, int col) const {
+    return grid[row][col];  // Assuming grid is a member of the Grid class
 }

@@ -6,6 +6,7 @@ set(SRC_FILES
         blocks.cpp
         game.cpp
         Position.cpp
+        ColisionManager.cpp
 )
 
 # Add the source files to the library
