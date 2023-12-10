@@ -1,40 +1,35 @@
 #include <iostream>
 #include "../include/Block.hpp"
 
-
 Block::Block()
         : cellSize(30), rotationState(0), id(0), rowOffset(0), columnOffset(0), colors(GetCellColors()) {
 }
 
-
-void Block::Draw(threepp::Scene &scene, int offsetX, int offsetY) const {
+std::shared_ptr<threepp::Mesh>
+Block::DrawBox(threepp::Scene &scene, const Position &item, int offsetX, int offsetY) const {
     const std::pair<float, float> center = CommonUtils::CalculateCenter(BLOCK_WIDTH_FACTOR * cellSize,
                                                                         BLOCK_HEIGHT_FACTOR * cellSize);
     const float centerX = center.first;
     const float centerY = center.second;
 
-    std::vector<std::shared_ptr<threepp::Mesh>> boxes;
+    const float x = centerX + (item.column * cellSize) + offsetX;
+    const float y = centerY - (item.row * cellSize) + offsetY;
+    const float z = 0;
 
-    for (const Position &item: GetCellPositions()) {
-        const float x = centerX + (item.column * cellSize) + offsetX;
-        const float y = centerY - (item.row * cellSize) + offsetY;
-        const float z = 0;
+    const float width = cellSize - 1;
+    const float height = cellSize - 1;
 
-        const float width = cellSize - 1;
-        const float height = cellSize - 1;
+    auto geometry = threepp::BoxGeometry::create(width, height, 2);
+    auto material = threepp::MeshBasicMaterial::create({{"color", colors[id]}});
+    auto boxMesh = threepp::Mesh::create(geometry, material);
 
-        auto geometry = threepp::BoxGeometry::create(width, height, 2);
-        auto material = threepp::MeshBasicMaterial::create({{"color", colors[id]}});
-        auto boxMesh = threepp::Mesh::create(geometry, material);
+    CommonUtils::SetMeshPosition(boxMesh, x, y, z);
+    CommonUtils::AddMeshToScene(scene, boxMesh);
 
-        CommonUtils::SetMeshPosition(boxMesh, x, y, z);
-        boxes.push_back(boxMesh);
-    }
-
-    for (const auto &box: boxes) {
-        CommonUtils::AddMeshToScene(scene, box);
-    }
+    // Return the created mesh
+    return boxMesh;
 }
+
 
 void Block::Move(int rows, int columns) {
     rowOffset += rows;
@@ -57,33 +52,42 @@ void Block::Rotate() {
     rotationState = (rotationState + 1) % static_cast<int>(cells.size());
 }
 
+void Block::Draw(threepp::Scene &scene, int offsetX, int offsetY) const {
+    for (const Position &item: GetCellPositions()) {
+        DrawBox(scene, item, offsetX, offsetY);
+    }
+}
+
 void Block::DrawAtPosition(threepp::Scene &scene, const Position &position) const {
+    for (const Position &item: GetCellPositions()) {
+        DrawBoxAtPosition(scene, item, position);
+    }
+}
+
+
+std::shared_ptr<threepp::Mesh> Block::DrawBoxAtPosition(threepp::Scene &scene, const Position &item,
+                                                        const Position &position) const {
     const std::pair<float, float> center = CommonUtils::CalculateCenter(BLOCK_WIDTH_FACTOR * cellSize,
                                                                         BLOCK_HEIGHT_FACTOR * cellSize);
     const float centerX = center.first;
     const float centerY = center.second;
 
-    std::vector<std::shared_ptr<threepp::Mesh>> boxes;
+    const float x = centerX + item.column + position.column * cellSize;
+    const float y = centerY - item.row - position.row * cellSize;
+    const float z = 0;
 
-    for (const Position &item: GetCellPositions()) {
-        const float x = centerX + item.column + position.column * cellSize;
-        const float y = centerY - item.row - position.row * cellSize;
-        const float z = 0;
+    const float width = cellSize - 1;
+    const float height = cellSize - 1;
 
-        const float width = cellSize - 1;
-        const float height = cellSize - 1;
+    auto geometry = threepp::BoxGeometry::create(width, height, 2);
+    auto material = threepp::MeshBasicMaterial::create({{"color", colors[id]}});
+    auto boxMesh = threepp::Mesh::create(geometry, material);
 
-        auto geometry = threepp::BoxGeometry::create(width, height, 2);
-        auto material = threepp::MeshBasicMaterial::create({{"color", colors[id]}});
-        auto boxMesh = threepp::Mesh::create(geometry, material);
+    CommonUtils::SetMeshPosition(boxMesh, x, y, z);
+    CommonUtils::AddMeshToScene(scene, boxMesh);
 
-        CommonUtils::SetMeshPosition(boxMesh, x, y, z);
-        boxes.push_back(boxMesh);
-    }
-
-    for (const auto &box: boxes) {
-        CommonUtils::AddMeshToScene(scene, box);
-    }
+    // Return the created mesh
+    return boxMesh;
 }
 
 void Block::CreateWhiteBox(threepp::Scene &scene, const Position &position, float customWidth, float customHeight,
@@ -108,7 +112,6 @@ void Block::CreateWhiteBox(threepp::Scene &scene, const Position &position, floa
     CommonUtils::SetMeshPosition(whiteBox, x, y, z);
     scene.add(whiteBox);
 }
-
 
 std::vector<Position>
 Block::AdjustPositionsWithOffset(const std::vector<Position> &positions, int rowOffset, int columnOffset) {

@@ -25,12 +25,19 @@ public:
     int columnOffset;
     std::vector<threepp::Color> colors;
     std::map<int, std::vector<Position>> cells;
+    std::vector<std::shared_ptr<threepp::Mesh>> boxes;
+
 
 private:
     static std::vector<Position> AdjustPositionsWithOffset(const std::vector<Position> &positions, int rowOffset,
                                                            int columnOffset);
     static const int BLOCK_WIDTH_FACTOR = 10;
     static const int BLOCK_HEIGHT_FACTOR = 20;
+
+    std::shared_ptr<threepp::Mesh> DrawBox(threepp::Scene &scene, const Position &item, int offsetX, int offsetY) const;
+
+    std::shared_ptr<threepp::Mesh>
+    DrawBoxAtPosition(threepp::Scene &scene, const Position &item, const Position &position) const;
 };
 
 #endif // EKSAMEN_2023_BLOCK_HPP
