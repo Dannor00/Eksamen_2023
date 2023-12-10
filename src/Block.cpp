@@ -7,7 +7,7 @@ Block::Block()
 }
 
 
-void Block::Draw(threepp::Scene &scene, int offsetX, int offsetY) {
+void Block::Draw(threepp::Scene &scene, int offsetX, int offsetY) const {
     const std::pair<float, float> center = CommonUtils::CalculateCenter(BLOCK_WIDTH_FACTOR * cellSize,
                                                                         BLOCK_HEIGHT_FACTOR * cellSize);
     const float centerX = center.first;

@@ -9,7 +9,7 @@ public:
 
     ~Block() = default;
 
-    void Draw(threepp::Scene &scene, int offsetX, int offsetY);
+    void Draw(threepp::Scene &scene, int offsetX, int offsetY) const;
     void Move(int rows, int columns);
     void Rotate();
     void DrawAtPosition(threepp::Scene &scene, const Position &position) const;

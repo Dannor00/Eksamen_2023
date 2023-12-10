@@ -22,14 +22,13 @@ public:
     int score;
     Grid grid;
 
-    void RedrawLockedBlocks(threepp::Scene &scene);
 
 
     void Reset();
 
     bool gameOver = false;
 
-    void Draw(threepp::Scene &scene);
+
 
     std::vector<Block *> dirtyBlocks;
 
@@ -45,6 +44,8 @@ public:
 
     void MoveBlock(int i, int i1);
 
+    void RedrawLockedBlocks(threepp::Scene &scene) const;
+
 private:
     struct LockedBlock {
 
@@ -57,25 +58,24 @@ private:
     std::vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;
-    std::vector<LockedBlock> lockedBlocks;
     std::random_device rd;
     std::mt19937 gen;
-    const float blockFallInterval = 1.0f;
+    static constexpr float BlockFallInterval = 1.0f;
     float elapsedSinceLastFall = 0.0f;
     CollisionManager collisionManager;
-
-    bool IsCollision(const Block &block, int rows, int columns);
-
-
-    void LockBlock(threepp::Scene &scene);
-
-    bool IsGameOver();
+    std::vector<std::shared_ptr<LockedBlock>> lockedBlocks;
 
 
     void MoveBlockDown(threepp::Scene &scene);
 
 
-    void RedrawLockedBlocks(threepp::Scene &scene, const std::unordered_map<int, Block> &blockTypeMap);
+    [[nodiscard]] bool IsGameOver() const;
+
+    [[nodiscard]] bool IsCollision(const Block &block, int rows, int columns) const;
+
+    void Draw(threepp::Scene &scene);
+
+    void LockBlock(threepp::Scene &scene);
 };
 
 #endif // EKSAMEN_2023_GAME_HPP
