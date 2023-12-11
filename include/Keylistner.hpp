@@ -1,7 +1,7 @@
+#ifndef EKSAMEN_2023_KEYLISTENER_HPP
+#define EKSAMEN_2023_KEYLISTENER_HPP
 
-#ifndef EKSAMEN_2023_KEYLISTNER_HPP
-#define EKSAMEN_2023_KEYLISTNER_HPP
-
+#include "game.hpp"
 
 class MyKeyListener : public threepp::KeyListener {
 public:
@@ -14,12 +14,12 @@ public:
         } else if (evt.key == threepp::Key::W) {
             game.RotateBlock();
         } else if (evt.key == threepp::Key::S) {
-            game.MoveBlock(1, 0);  // Example: Move down by increasing row
+            game.MoveBlock(1, 0);
             game.UpdateScore(0, 1);
         } else if (evt.key == threepp::Key::D) {
-            game.MoveBlock(0, 1);  // Example: Move right by increasing column
+            game.MoveBlock(0, 1);
         } else if (evt.key == threepp::Key::A) {
-            game.MoveBlock(0, -1); // Example: Move left by decreasing column
+            game.MoveBlock(0, -1);
         }
     }
 
@@ -27,4 +27,4 @@ private:
     Game &game;
 };
 
-#endif //EKSAMEN_2023_KEYLISTNER_HPP
+#endif // EKSAMEN_2023_KEYLISTENER_HPP

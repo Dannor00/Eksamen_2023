@@ -4,9 +4,10 @@ Game::Game() : grid(Grid()), rd(), gen(rd()), collisionManager(grid) {
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
-    score = 0;  // Initialize the score to zero
+    score = 0;
 }
 
+//modifisert av Ai
 std::shared_ptr<Block> Game::GetRandomBlock() {
     if (blocks.empty()) {
         blocks = GetAllBlocks();
@@ -16,12 +17,13 @@ std::shared_ptr<Block> Game::GetRandomBlock() {
     std::size_t randomIndex = dist(gen);
 
     auto iter = blocks.begin() + static_cast<std::ptrdiff_t>(randomIndex);
-    std::shared_ptr<Block> block = std::make_shared<Block>(**iter);  // Using make_shared
+    std::shared_ptr<Block> block = std::make_shared<Block>(**iter);
     blocks.erase(iter);
 
     return block;
 }
 
+//
 void Game::Update(threepp::Scene &scene, float deltaTime) {
     if (gameOver) {
         // Game is over, do not update anything
@@ -41,14 +43,13 @@ void Game::Update(threepp::Scene &scene, float deltaTime) {
 
     // Draw the updated elements
     Draw(scene);
-    MarkBlockDirty(currentBlock);
 }
 
 void Game::MoveBlockDown(threepp::Scene &scene) {
     if (elapsedSinceLastFall >= BlockFallInterval) {
         elapsedSinceLastFall = 0.0f;
 
-        // Attempt to move the block down
+        // Moving the Block down
         if (!IsCollision(*currentBlock)) {
             MoveBlock(1, 0);
         } else {
@@ -73,17 +74,17 @@ void Game::Draw(threepp::Scene &scene) {
     // Clear the scene before rendering
     scene.clear();
 
-    // Redraw only the dirty Tetris blocks
-    for (const auto &block: dirtyBlocks) {
-        block->Draw(scene, 0, 0);
-    }
-
-    // Optionally, redraw other static elements that don't change frequently
+    // Draw the entire grid
     grid.Draw(scene);
-    nextBlock->Draw(scene, 300, -300);
 
-    // Clear the list of dirty Tetris blocks for the next frame
-    dirtyBlocks.clear();
+    // Draw the current block
+    currentBlock->Draw(scene, 0, 0);
+
+    // Draw the locked blocks
+    RedrawLockedBlocks(scene);
+
+    // Draw the next block
+    nextBlock->Draw(scene, 300, -300);
 }
 
 void Game::MoveBlock(int rows, int columns) {
@@ -94,6 +95,7 @@ void Game::RotateBlock() {
     currentBlock->Rotate();
 }
 
+//Laget av ai med modifiseringer.
 void Game::LockBlock(threepp::Scene &scene) {
     const std::vector<Position> blockPositions = currentBlock->GetCellPositions();
 
@@ -102,7 +104,6 @@ void Game::LockBlock(threepp::Scene &scene) {
         int lockedColumn = pos.column;
         grid.grid[lockedRow][lockedColumn] = currentBlock->id;
 
-        // Use emplace_back for smart pointers
         lockedBlocks.emplace_back(std::make_shared<LockedBlock>(pos));
     }
 
@@ -124,6 +125,7 @@ void Game::LockBlock(threepp::Scene &scene) {
 
     RedrawLockedBlocks(scene);
 }
+
 void Game::RedrawLockedBlocks(threepp::Scene &scene) const {
     const std::unordered_map<int, std::shared_ptr<Block>> blockTypeMap = {
             {1, std::make_shared<LBlock>()},
@@ -150,6 +152,7 @@ void Game::RedrawLockedBlocks(threepp::Scene &scene) const {
 
 Game::LockedBlock::LockedBlock(Position position) : position(position) {
 }
+//
 
 void Game::Reset() {
     grid.Initialize();
@@ -163,7 +166,6 @@ void Game::UpdateScore(int linesCleared, int moveDownPoints) {
     score += (linesCleared >= 1 && linesCleared <= 3) ? (linesCleared * 100) : 0;
     score += moveDownPoints;
 }
-
 
 bool Game::IsCollision(const Block &block) const {
     return collisionManager.IsCollision(block, 1, 0);

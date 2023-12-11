@@ -11,27 +11,28 @@ class Game {
 public:
     Game();
 
-    std::shared_ptr<Block> GetRandomBlock();
-
     void Update(threepp::Scene &scene, float deltaTime);
 
     void RotateBlock();
 
+    void MoveBlock(int rows, int columns);
+
+    void RedrawLockedBlocks(threepp::Scene &scene) const;
+
     void UpdateScore(int linesCleared, int moveDownPoints);
 
-    int score;
-    Grid grid;
-
     void Reset();
+
+    int score;
+
+    Grid grid;
 
     bool gameOver = false;
 
     std::vector<std::shared_ptr<Block>> dirtyBlocks;
 
-    // Helper function to mark a block as dirty
-    void MarkBlockDirty(std::shared_ptr<Block> block) {
-        dirtyBlocks.push_back(block);
-    }
+    std::shared_ptr<Block> GetRandomBlock();
+
 
     static std::vector<std::shared_ptr<Block>> GetAllBlocks() {
         return {std::make_shared<IBlock>(), std::make_shared<JBlock>(), std::make_shared<LBlock>(),
@@ -39,9 +40,6 @@ public:
                 std::make_shared<ZBlock>()};
     }
 
-    void MoveBlock(int rows, int columns);
-
-    void RedrawLockedBlocks(threepp::Scene &scene) const;
 
 private:
     struct LockedBlock {
@@ -53,14 +51,13 @@ private:
     std::vector<std::shared_ptr<Block>> blocks;
     std::shared_ptr<Block> currentBlock;
     std::shared_ptr<Block> nextBlock;
+    std::vector<std::shared_ptr<LockedBlock>> lockedBlocks;
     std::random_device rd;
     std::mt19937 gen;
     static constexpr float BlockFallInterval = 1.0f;
     float elapsedSinceLastFall = 0.0f;
     CollisionManager collisionManager;
-    std::vector<std::shared_ptr<LockedBlock>> lockedBlocks;
 
-    void MoveBlockDown(threepp::Scene &scene);
 
     [[nodiscard]] bool IsGameOver() const;
 
@@ -69,6 +66,8 @@ private:
     void Draw(threepp::Scene &scene);
 
     void LockBlock(threepp::Scene &scene);
+
+    void MoveBlockDown(threepp::Scene &scene);
 };
 
 #endif // EKSAMEN_2023_GAME_HPP

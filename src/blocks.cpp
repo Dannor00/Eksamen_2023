@@ -1,6 +1,6 @@
 #include "../include/Block.hpp"
 
-
+//klassen er kopiert fra youtube vidio:1
 class LBlock : public Block {
 public:
     LBlock() {

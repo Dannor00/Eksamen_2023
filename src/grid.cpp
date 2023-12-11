@@ -6,7 +6,6 @@ Grid::Grid() : numRows(20), numCols(10), cellSize(30) {
 }
 
 void Grid::Initialize() {
-    // Initialize the 2D vector with zeros
     grid.assign(numRows, std::vector<int>(numCols, EMPTY_CELL));
 }
 
@@ -19,6 +18,7 @@ void Grid::Print() const {
     }
 }
 
+//Kode Delvis omskrevet av Ai
 void Grid::Draw(threepp::Scene &scene) const {
     float gridWidth = numCols * cellSize;
     float gridHeight = numRows * cellSize;
@@ -49,6 +49,7 @@ void Grid::Draw(threepp::Scene &scene) const {
     }
 }
 
+//
 bool Grid::IsRowFull(int row) const {
     for (int column = 0; column < numCols; column++) {
         if (grid[row][column] == EMPTY_CELL) {
@@ -85,13 +86,13 @@ int Grid::ClearFullRows() {
 }
 
 int Grid::GetNumRows() const {
-    return numRows;  // Assuming numRows is a member of the Grid class
+    return numRows;
 }
 
 int Grid::GetNumCols() const {
-    return numCols;  // Assuming numCols is a member of the Grid class
+    return numCols;
 }
 
 int Grid::GetCellValue(int row, int col) const {
-    return grid[row][col];  // Assuming grid is a member of the Grid class
+    return grid[row][col];
 }

@@ -25,8 +25,6 @@ public:
         float centerY = height / 2.0;
         return {centerX, centerY};
     }
-
-
 };
 
 

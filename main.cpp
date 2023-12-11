@@ -1,5 +1,4 @@
 #include <memory>
-#include <iostream>
 #include "thread"
 #include "include/game.hpp"
 #include "include/Keylistner.hpp"
@@ -15,6 +14,7 @@ constexpr int kNextTextX = 300;
 constexpr int kNextTextY = 300;
 constexpr int kTargetFrameRate = 60;
 
+//Hentet fra eksempler fra Threepp bibloteket.
 void SetupTextHandles(threepp::TextRenderer &textRenderer, std::reference_wrapper<threepp::TextHandle> scoreTextHandle,
                       std::reference_wrapper<threepp::TextHandle> gameOverTextHandle) {
     scoreTextHandle = textRenderer.createHandle();
@@ -46,6 +46,7 @@ void UpdateTextHandles(threepp::TextHandle &scoreTextHandle, threepp::TextHandle
     }
 }
 
+//
 int main() {
     auto canvas = std::make_shared<threepp::Canvas>("Tetris");
     canvas->setSize({kCanvasWidth, kCanvasHeight});
@@ -62,13 +63,12 @@ int main() {
 
     auto camera = std::make_unique<threepp::PerspectiveCamera>(65, canvas->aspect(), 0.1f, 1000);
     camera->position.set(110, 0, 500);
-
+//Hentet fra Ai
     auto scene = std::make_unique<threepp::Scene>();
 
     const double targetFrameTime = 1.0 / kTargetFrameRate;
     threepp::Clock clock;
-    TimeUtils timeUtils;
-
+//
     MyKeyListener kl{*game};
     canvas->addKeyListener(&kl);
 
@@ -85,7 +85,7 @@ int main() {
 
         while (lag >= targetFrameTime) {
             lag -= targetFrameTime;
-            float deltaTime = timeUtils.calculateDeltaTime();
+            float deltaTime = TimeUtils::calculateDeltaTime();
 
             game->Update(*scene, deltaTime);
 
@@ -109,10 +109,11 @@ int main() {
 
         renderer->resetState();
         textRenderer.render();
-
+// Hentet fra Ai
         auto frameRenderTime = clock.getElapsedTime() - currentTime;
         auto sleepDuration = std::chrono::milliseconds(static_cast<int>((targetFrameTime - frameRenderTime) * 1000));
         std::this_thread::sleep_for(sleepDuration);
+//
     });
 
     return 0;

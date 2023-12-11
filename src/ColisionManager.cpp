@@ -3,6 +3,7 @@
 CollisionManager::CollisionManager(const Grid &gameGrid) : gameGrid(gameGrid) {
 }
 
+//skrevet av AI
 bool CollisionManager::IsCollision(const Block &block, int rows, int columns) const {
     const auto cellPositions = block.GetCellPositionsAfterMove(rows, columns);
 
@@ -12,6 +13,7 @@ bool CollisionManager::IsCollision(const Block &block, int rows, int columns) co
                        });
 }
 
+//
 bool CollisionManager::IsCellPositionValid(const Position &newPos) const {
     return (newPos.row >= 0 && newPos.row < gameGrid.GetNumRows() &&
             newPos.column >= 0 && newPos.column < gameGrid.GetNumCols() &&
