@@ -2,7 +2,7 @@
 
 ## Beskrivelse
 
-Dette prosjektet er en implementering av det klassiske Tetris-spillet i C++ ved hjelp av trejs-biblioteket for
+Dette prosjektet er en implementering av det klassiske Tetris-spillet i C++ ved hjelp av Threepp for
 3D-grafikk og rendering.
 
 ## Funksjoner
