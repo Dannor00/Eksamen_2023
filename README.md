@@ -68,10 +68,10 @@ med MinGW mp du spesifisere vcpkg:
 
 ## Spillkontroll
 
-- **Venstre- og høyrepiltastene**: Flytt brikken til venstre og høyre.
-- **Opp-piltasten**: Roter brikken.
-- **Ned-piltasten**: La brikken falle raskere.
-- **Mellomromstasten**: La brikken falle helt ned til bunnen.
+- **A- og D**: Flytt brikken til venstre og høyre.
+- **W**: Roter brikken.
+- **S**: La brikken falle raskere.
+
 
 ## Enhetstester
 
@@ -86,8 +86,6 @@ Hvis du vil kjøre enhetstestene (krever at Catch2 er aktivert), gjør følgende
 
 Happy gaming!
 
-reffernasner
--https://www.youtube.com/watch?v=wVYKG_ch4yM&t=4057s
--https://chat.openai.com/
+
 
 
