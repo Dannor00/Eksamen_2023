@@ -1,12 +1,7 @@
-//
-// Created by Danie on 24.10.2023.
-//
-
 #pragma once
-#include "threepp/threepp.hpp"
-#include <vector>
 
-using namespace threepp;
+#include "threepp/threepp.hpp"
+
 
 extern const threepp::Color grey;
 extern const threepp::Color green;

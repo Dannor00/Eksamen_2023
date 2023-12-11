@@ -1,40 +1,83 @@
-#include "threepp/extras/imgui/ImguiContext.hpp"
-#include "threepp/threepp.hpp"
+#include <memory>
 #include "thread"
-#include "Tetrominos/Block/blocks/blocks.cpp"
-#include "grid.h"
+#include "include/game.hpp"
+#include "include/Keylistner.hpp"
+#include "include/CalculateTime.hpp"
 
-using namespace threepp;
+constexpr int kCanvasWidth = 900;
+constexpr int kCanvasHeight = 900;
+constexpr int kScoreTextX = 340;
+constexpr int kScoreTextY = 100;
+constexpr int kGameOverTextX = 350;
+constexpr int kGameOverTextY = 600;
+constexpr int kNextTextX = 300;
+constexpr int kNextTextY = 300;
+constexpr int kTargetFrameRate = 60;
 
+//Hentet fra eksempler fra Threepp bibloteket.
+void SetupTextHandles(threepp::TextRenderer &textRenderer, std::reference_wrapper<threepp::TextHandle> scoreTextHandle,
+                      std::reference_wrapper<threepp::TextHandle> gameOverTextHandle) {
+    scoreTextHandle = textRenderer.createHandle();
+    scoreTextHandle.get().color = threepp::Color::white;
+    scoreTextHandle.get().scale = 3;
 
+    gameOverTextHandle = textRenderer.createHandle();
+    gameOverTextHandle.get().color = threepp::Color::white;
+    gameOverTextHandle.get().scale = 3;
+
+    auto &nextTextHandle = textRenderer.createHandle("Next");
+    nextTextHandle.setPosition(kCanvasWidth - kNextTextX, kNextTextY);
+    nextTextHandle.color = threepp::Color::white;
+    nextTextHandle.scale = 3;
+}
+
+void UpdateTextHandles(threepp::TextHandle &scoreTextHandle, threepp::TextHandle &gameOverTextHandle, Game &game) {
+    scoreTextHandle.setPosition(kCanvasWidth - kScoreTextX, kScoreTextY);
+    scoreTextHandle.setText("Score: " + std::to_string(game.score));
+    scoreTextHandle.scale = 3;  // Adjust the scale for the score text
+
+    gameOverTextHandle.setPosition(kCanvasWidth - kGameOverTextX, kGameOverTextY);
+
+    if (game.gameOver) {
+        gameOverTextHandle.setText("GAME OVER!");
+        gameOverTextHandle.scale = 3;  // Adjust the scale for the game over text
+    } else {
+        gameOverTextHandle.setText("");
+    }
+}
+
+//
 int main() {
+    auto canvas = std::make_shared<threepp::Canvas>("Tetris");
+    canvas->setSize({kCanvasWidth, kCanvasHeight});
 
-    Canvas canvas("Tetris", {{"aa", 4}});
-    canvas.setSize({300, 600});
+    threepp::TextRenderer textRenderer;
+    std::reference_wrapper<threepp::TextHandle> scoreTextHandle = textRenderer.createHandle();
+    std::reference_wrapper<threepp::TextHandle> gameOverTextHandle = textRenderer.createHandle();
 
-    GLRenderer renderer(canvas.size());
-    renderer.setClearColor(Color::blue);
-    auto camera = PerspectiveCamera::create(75, canvas.aspect(),0.1f, 1000);
-    camera->position.set(0, 0, 500);
+    SetupTextHandles(textRenderer, scoreTextHandle, gameOverTextHandle);
 
-    auto scene = Scene::create();
-    OrbitControls controls(*camera, canvas);
+    auto game = std::make_unique<Game>();
+    auto renderer = std::make_unique<threepp::GLRenderer>(canvas->size());
+    renderer->setClearColor(threepp::Color::blue);
 
-    Grid grid = Grid();
-    grid.Print();
+    auto camera = std::make_unique<threepp::PerspectiveCamera>(65, canvas->aspect(), 0.1f, 1000);
+    camera->position.set(110, 0, 500);
+//Hentet fra Ai
+    auto scene = std::make_unique<threepp::Scene>();
 
-    TBlock block = TBlock();
-    block.Draw(scene.get());
-
-
-    /// Denne delen av koden er modifisert av chatgpt for å sette maksimum fps til 60
-    const double targetFrameTime = 1.0 / 60.0; // Target time for 60 fps (in seconds)
-    Clock clock;
+    const double targetFrameTime = 1.0 / kTargetFrameRate;
+    threepp::Clock clock;
+//
+    MyKeyListener kl{*game};
+    canvas->addKeyListener(&kl);
 
     double previousTime = clock.getElapsedTime();
     double lag = 0.0;
 
-    canvas.animate([&] {
+    auto block = std::make_unique<Block>();
+
+    canvas->animate([&] {
         double currentTime = clock.getElapsedTime();
         double elapsed = currentTime - previousTime;
         previousTime = currentTime;
@@ -42,14 +85,36 @@ int main() {
 
         while (lag >= targetFrameTime) {
             lag -= targetFrameTime;
+            float deltaTime = TimeUtils::calculateDeltaTime();
+
+            game->Update(*scene, deltaTime);
+
+            if (!game->gameOver) {
+                game->RedrawLockedBlocks(*scene);
+            }
+
+            Position whiteBoxPosition = Position(10, 14);
+            float customWidth = 200.0f;
+            float customHeight = 100.0f;
+            float customDepth = 1.0f;
+
+            // Create the white box inside the rendering loop
+            block->CreateWhiteBox(*scene, whiteBoxPosition, customWidth, customHeight, customDepth);
         }
-        grid.Draw(scene.get());
 
+        // Update text handles after the game has been updated
+        UpdateTextHandles(scoreTextHandle, gameOverTextHandle, *game);
 
-        renderer.render(*scene, *camera);
+        renderer->render(*scene, *camera);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000/60));
-
-        /// til hær
+        renderer->resetState();
+        textRenderer.render();
+// Hentet fra Ai
+        auto frameRenderTime = clock.getElapsedTime() - currentTime;
+        auto sleepDuration = std::chrono::milliseconds(static_cast<int>((targetFrameTime - frameRenderTime) * 1000));
+        std::this_thread::sleep_for(sleepDuration);
+//
     });
+
+    return 0;
 }
